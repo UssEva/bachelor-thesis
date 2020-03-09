@@ -1,0 +1,139 @@
+% !TeX spellcheck = en_US
+% !TeX encoding = UTF-8
+
+% COMPILE WITH:
+% `latexmk`
+% You need lualatex and biber (in all TeXLive distributions)
+
+\documentclass[
+    numbers=noenddot,
+    %listof=totoc,
+    parskip=half-,
+    fontsize=12pt,
+    paper=a4,
+    oneside,
+    titlepage,
+    bibliography=totoc,
+    chapterprefix=false,
+%    draft
+]{scrbook}
+
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{array}
+
+%pgfplots
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.9}
+\usepgfplotslibrary{external}
+\tikzexternalize
+
+% use lualatex or xelatex
+%\usepackage{fontspec}
+\usepackage[onehalfspacing]{setspace}
+
+% better language support
+\usepackage{polyglossia}
+\setdefaultlanguage{english}
+%\setdefaultlanguage{german}
+
+\usepackage{tocbasic}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{multirow}
+
+\usepackage[]{scrlayer-scrpage}
+
+% better bibliography (biblatex style)
+% use biber to compile
+\usepackage[citestyle=alphabetic, bibstyle=alphabetic, sorting=nyt, backend=biber, language=english, backref=true, maxcitenames=2]{biblatex}
+
+% better quotes
+% use \enquote{text}
+\usepackage[autostyle,english=american,german=quotes]{csquotes}
+\addbibresource{bibliography.bib}
+
+% appendix
+\usepackage[titletoc]{appendix}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+% where to put all images and figures
+\graphicspath{{images/}}
+
+
+
+% Title
+\title{Identification of Bugs in Scratch Programs with N-gram Language Models}
+
+% Author
+\author{Eva Gründinger}
+
+% Date
+\date{\today}
+
+% CHOOSE ACCORDINGLY
+\newcommand{\thesisType}{Exposé}
+%\newcommand{\thesisType}{Masterarbeit}
+
+\newcommand{\thetitle}{\@title}
+\newcommand{\theauthor}{\@author}
+\newcommand{\thedate}{\@date}
+
+\pagestyle{scrheadings}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \frontmatter
+    \include{include/EP-titlepage}
+    \tableofcontents
+    \newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \mainmatter
+
+    \chapter{Problem}\label{ch:problem}
+    
+
+    \chapter{State of the art}\label{ch:state-of-the-art}
+    
+    \section{Analysing Scratch programs}\label{sec:analyzing-scratch}
+
+    \section{N-gram language models}\label{sec:language-models}
+
+    \section{Bugram: Automatic bug detection}\label{sec:bugram}
+
+
+    \chapter{Research questions}\label{ch:research-questions}
+    The thesis aims to answer the following research questions:
+
+    \begin{description}
+        \item[RQ 1] What are the optimal parameters for the language model?
+        \item[RQ 2] How many bugs are found?
+        \item[RQ 3] What is the severity of violations?
+    \end{description}
+
+
+    \chapter{Evaluation}\label{ch:evaluation}
+    
+    \begin{description}
+        \item[RQ 1 What are the optimal parameters for the language model?] 
+        \item[RQ 2 How many bugs are found?]
+        \item[RQ 3 What is the severity of violations?]
+    \end{description}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \backmatter
+
+% -- Bibliography
+    \printbibliography
+
+\end{document}
