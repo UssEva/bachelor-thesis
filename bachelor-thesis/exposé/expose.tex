@@ -27,11 +27,11 @@
 \usepackage{graphicx}
 \usepackage{array}
 
+\newcommand{\latex}{\textsc{LaTex}}
 \newcommand{\ngram}{\textsc{n-gram language model}}
 \newcommand{\bugram}{\textsc{Bugram}}
 \newcommand{\litterbox}{\textsc{LitterBox}}
 \newcommand{\scratch}{\textsc{Scratch}}
-\newcommand{\jadet}{\textsc{JADET}}
 \newcommand{\java}{\textsc{Java}}
 \newcommand{\hairball}{\textsc{Hairball}}
 \newcommand{\drscratch}{\textsc{Dr. Scratch}}
@@ -120,7 +120,7 @@
 
     \chapter{State of the art}\label{ch:state-of-the-art}
     
-    \section{Analysing Scratch programs}\label{sec:analyzing-scratch}
+    \section{Analyzing Scratch programs}\label{sec:analyzing-scratch}
     The tools Dr. Scratch~\cite{drscratch} as well as Hairball~\cite{hairball} analyze \scratch{} programs to find bugs and code smells. These are then reported to the user in order to improve the computational thinking and coding skills of novice programmers. Bad programming habits were assessed in a preliminary study by Moreno et al.~\cite{badhabits} and code smells that are very common in Scratch were analyzed by Vargas-Alba et al.~\cite{badsmells}. Stahlbauer et al.~\cite{whisker} introduced \whisker{} which is a formal testing framework for Scratch. \litterbox, a tool created by Frädrich et al.~\cite{scratch_bugpatterns} that creates an AST of \scratch{} programs, is used for finding code smells as well as bug patterns. In this bachelor thesis, the goal is to enhance \litterbox{} by finding bugs with a n-gram language model instead of bug patterns and rules like all tools mentioned above are already able to do.
     
 
@@ -145,7 +145,7 @@
 
     \chapter{Evaluation}\label{ch:evaluation}
     
-    Implement a visitor for n-gram language models in \litterbox{}. Use three representative \scratch{} projects to study the impact of different parameters on the performance.  
+    Implement a visitor for \ngram{s} in \litterbox{}. Use three representative \scratch{} projects to study the impact of different parameters on the performance.  
     
     \begin{description}
         \item[RQ 1 What is the optimal gram size of the language model?] N-gram models for each project are built with the gram size ranging from two to ten. Calculate the probabilities of all token sequences and rank them based on their probabilities in descending order. Then examine the bottom 10, 20, 30, 50 and 100 sequences from each n-gram model and manually verify whether a token sequence contains a bug or not.
@@ -155,7 +155,7 @@
         For each examined project, built n-gram models with sequence lengths based on the results of [RQ 1] and [RQ 2]. Examine probabilities of all sequences and normalize the outcome. Narrow down the reporting size by only looking at the bottom 100 sequences. For each project, examine how many true bugs are detected when reporting size is equal to 10, 20, 30, 50 and 100.
     \end{description}
 
-	Take another small set of \scratch{3} projects from our database which results can be manually verified.
+	Take another small set of \scratch{3} projects from our database that can be manually verified.
 	
     \begin{description}
         \item[RQ 4 How many bugs are found?] 
@@ -164,6 +164,24 @@
         Rank found violations, search for the actual \scratch{} projects and download them with their assets. Then classify them manually in the following categories: \textit{True Bugs, Refactoring Opportunities and False Positives}.
     \end{description}
  
+ 
+ 	\chapter{Schedule}\label{ch:schedule}
+ 	
+ 	\begin{table}[ht]
+ 		\begin{tabular}{p{1cm}p{3cm}p{3cm}p{8cm}}
+ 			Weeks & Timeslot & Phase & Tasks \\
+ 			\hline
+ 			1 & 23.03. - 29.03. & Preparation & Setup \latex{} outline, \litterbox{} branch, Search papers \\
+ 			3 & 30.03. - 19.04. & Programming & Build \ngram{} tool for \scratch{}: Tokenization, Calculate probabilities for sequences, Rank results and report bugs\\
+ 			3 & 20.04. - 10.05. & Evaluation & Find optimal parameters for model, Analyze reported bugs\\
+ 			3 & 11.05. - 31.05. & Writing & Structure, Research Questions, Main body, Introduction, Conclusion \\
+ 			1.5 & 01.06. - 10.06. & Correction & Bibliography, Content, Grammar \\
+ 			0.5 & 11.06. - 14.06. & Submission & Print and bind Bachelor thesis\\
+ 			\hline
+ 		\end{tabular}
+ 	\label{tab:schedule}
+ 	\caption{Schedule for Bachelor thesis}
+ 	\end{table}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
