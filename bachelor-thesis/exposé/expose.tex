@@ -114,18 +114,18 @@
     
     In this bachelor thesis a different technique that uses \ngram{s} to automatically detect bugs in \scratch{} programs is proposed. This way of approaching the detection of defective code is already successfully applied by \bugram{}~\cite{bugram} on \java{} code. Token sequences of programs are assessed by their probability in the learned model while low probability ones are marked as bugs. The assumption is that low probability token sequences are unusual, which may indicate bugs, bad practices or special uses of code. 
     
-    For bug detection the four main components that need to be configured for the model are: \textit{Gram Size, Sequence Length, Reporting Size and Minimum Token Occurrence}. After adjusting these settings, the n-gram Markov model is able to obtain the probabilities of all token sequences. Token sequences in \scratch{} consist of blocks that can be arranged by the user with a drag-and-drop principle. The probability of each block in a sequence is only determined by its previous n-1 tokens. Using a 3-gram model the probability of the sequence s is:
+    For bug detection the four main components that need to be configured for the model are: \textit{Gram Size, Sequence Length, Reporting Size and Minimum Token Occurrence}. After adjusting these settings, the n-gram Markov model is able to obtain the probabilities of all token sequences. Token sequences in \scratch{} consist of blocks that can be arranged by the user with drag-and-drop. The probability of each block in a sequence is only determined by its previous n-1 tokens. Using a 3-gram model the probability of the sequence s is:
     \(P(s) = P(b_{1})P(b_{2}\mid b_{1})P(b_{3}\mid b_{1}b_{2})P(b_{4}\mid b_{2}b_{3}) \). Then the language model ranks the outcome based on the probabilities in descending order and reports the sequences with the lowest probabilities as potential bugs. 
     
 
     \chapter{State of the art}\label{ch:state-of-the-art}
     
     \section{Analyzing Scratch programs}\label{sec:analyzing-scratch}
-    The tools Dr. Scratch~\cite{drscratch} as well as Hairball~\cite{hairball} analyze \scratch{} programs to find bugs and code smells. These are then reported to the user in order to improve the computational thinking and coding skills of novice programmers. Bad programming habits were assessed in a preliminary study by Moreno et al.~\cite{badhabits} and code smells that are very common in Scratch were analyzed by Vargas-Alba et al.~\cite{badsmells}. Stahlbauer et al.~\cite{whisker} introduced \whisker{} which is a formal testing framework for Scratch. \litterbox, a tool created by Frädrich et al.~\cite{scratch_bugpatterns} that creates an AST of \scratch{} programs, is used for finding code smells as well as bug patterns. In this bachelor thesis, the goal is to enhance \litterbox{} by finding bugs with a n-gram language model instead of bug patterns and rules like all tools mentioned above are already able to do.
+    The tools \drscratch{}~\cite{drscratch} as well as \hairball{}~\cite{hairball} analyze \scratch{} programs to find bugs and code smells. These are then reported to the user in order to improve the computational thinking and coding skills of novice programmers. Bad programming habits were assessed in a preliminary study by Moreno et al.~\cite{badhabits} and code smells that are very common in Scratch were analyzed by Vargas-Alba et al.~\cite{badsmells}. Stahlbauer et al.~\cite{whisker} introduced \whisker{} which is a formal testing framework for Scratch. \litterbox, a tool created by Frädrich et al.~\cite{scratch_bugpatterns} that creates an AST of \scratch{} programs, is used for finding code smells as well as bug patterns. In this bachelor thesis, the goal is to enhance \litterbox{} by finding bugs with a \ngram{} instead of bug patterns and rules like all tools mentioned above are already able to do.
     
 
     \section{N-gram language models}\label{sec:language-models}
-    Hindle et al.~\cite{naturalness} ﬁrst introduced the \ngram{} to show that software source code is highly repetitive and the \ngram{} can be used in code suggestion and completion. This work is the basis for using language models to model source code and demonstrated how they could be used in software tools. A very accurate algorithm by using a Hidden Markov Model for code completion was proposed by Han et al.~\cite{codecompletion}. SLAMC by Nguyen et al.~\cite{SLAMC}, which incorporated semantic information into a n-gram model, presented a method to code suggestion. It demonstrated how tokens can be seen more semantically instead of just syntactically. Raychev et al.~\cite{SLANG} investigated the eﬀectiveness of various language models for code completion, i.e., n-gram and recurrent neural networks. By combining program analysis and the n-gram model, they proposed SLANG, which had the goal to predict the sequence of method calls in a software system. This work leverages the \ngram{} on a new domain - software defect detection in \scratch{}.
+    Hindle et al.~\cite{naturalness} first introduced the \ngram{} to show that software source code is highly repetitive and the \ngram{} can be used in code suggestion and completion. This work is the basis for using language models to model source code and demonstrated how they could be used in software tools. A very accurate algorithm by using a Hidden Markov Model for code completion was proposed by Han et al.~\cite{codecompletion}. SLAMC by Nguyen et al.~\cite{SLAMC}, which incorporated semantic information into a n-gram model, presented a method to code suggestion. It demonstrated how tokens can be seen more semantically instead of just syntactically. Raychev et al.~\cite{SLANG} investigated the effectiveness of various language models for code completion, i.e., n-gram and recurrent neural networks. By combining program analysis and the n-gram model, they proposed SLANG, which had the goal to predict the sequence of method calls in a software system. This work leverages the \ngram{} on a new domain - software defect detection in \scratch{}.
     
 
     \section{Automatic bug detection}\label{sec:bugram}
@@ -168,6 +168,8 @@
  	\chapter{Schedule}\label{ch:schedule}
  	
  	\begin{table}[ht]
+ 		\label{tab:schedule}
+ 		\caption{Schedule for bachelor thesis}
  		\begin{tabular}{p{1cm}p{3cm}p{3cm}p{8cm}}
  			Weeks & Timeslot & Phase & Tasks \\
  			\hline
@@ -179,8 +181,6 @@
  			0.5 & 11.06. - 14.06. & Submission & Print and bind Bachelor thesis\\
  			\hline
  		\end{tabular}
- 	\label{tab:schedule}
- 	\caption{Schedule for Bachelor thesis}
  	\end{table}
 
 
