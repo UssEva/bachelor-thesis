@@ -147,18 +147,18 @@
     Implement a visitor for \ngram{s} in \litterbox{}. Use a big set of \scratch{3} projects to study the impact of different parameters on the performance.  
     
     \begin{description}
-        \item[RQ 1 What is the optimal gram size of the language model?] N-gram models for each project are built with the gram size ranging from two to ten. Calculate the probabilities of all token sequences and rank them based on their probabilities in descending order. Then examine the bottom 10 sequences from each n-gram model and manually verify whether a token sequence contains a bug or not.
+        \item[RQ 1 What is the optimal gram size of the language model?] N-gram models for each project are built with the gram size ranging from two to ten. Calculate the probabilities of all token sequences and rank them based on their probabilities in descending order. Then examine the bottom 10 sequences of each n-gram model and manually verify whether a token sequence contains a bug or not. Choose gram size with most found bugs.
         \item[RQ 2 How long should the sequences be?]
-        Use sequence lengths ranging from two to ten. For each built a n-gram model with the optimal gram size from [RQ 1]. Calculate probabilities from all sequences and rank them. Examine the bottom 10 sequences with low probabilities to check how many true bugs are detected. Choose sequence length with most found bugs.
+        Use sequence lengths ranging from two to ten. For each built a n-gram model with the optimal gram size from [RQ 1]. Calculate probabilities from all sequences and rank them. Examine the bottom 20 sequences with low probabilities to check how many true bugs are detected. Choose sequence length with most found bugs.
         \item[RQ 3 What reporting size is reasonable?]
-        For each examined project, built n-gram models with sequence lengths based on the results of [RQ 1] and [RQ 2]. Examine probabilities of all sequences and normalize the outcome. Narrow down the reporting size by only looking at the bottom 10 sequences. For each project, examine how many true bugs are detected when reporting size is equal to 10, 20 and 30.
+        For each examined project, built n-gram models with the sequence length based on the results of [RQ 1] and [RQ 2]. Examine probabilities of all sequences, normalize the outcome and add a threshold for the maximal probability of a sequence. Narrow down the reporting size by only looking at the bottom 30 sequences. For each project, examine how many true bugs are detected when reporting size is equal to 10, 20 and 30.
     \end{description}
 
-	Take another small set of \scratch{3} projects from our database that can be manually verified.
+	Take another set of \scratch{3} projects from our database that can be manually verified.
 	
     \begin{description}
         \item[RQ 4 What bugs are found in comparison to \litterbox{}?] 
-        Use \litterbox{} and \ngram{} to count how many bugs are found in the same set and compare the results. Analyze if \ngram{} finds bugs that are not detected by \litterbox{}. Classify which category of defective code was found: \textit{True Bug, Refactoring Opportunity and False Positive}.
+        Use \litterbox{} and \ngram{} to count how many bugs are found in the same set and compare the results. Analyze if \ngram{} found bugs that are not detected by \litterbox{}. Classify which category of defective code \ngram{} found: \textit{True Bugs, Refactoring Opportunities or False Positives}.
     \end{description}
  
  
