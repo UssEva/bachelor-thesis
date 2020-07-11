@@ -1,10 +1,19 @@
-% !TeX spellcheck = de_DE
+% !TeX spellcheck = en_GB
 % !TeX encoding = UTF-8
 % !TeX root = ../thesis.tex
 \chapter{Methods}\label{chap:methods}
+The figure \ref{fig:overview} shows an overview of the language model and how it works. In this section, the tokenization process is described with the way the \scratch{} project is parsed and converted into tokens (Section\ref{sec:tokenization}). The next step is to use the created tokens to build the \ngram{s} (Section \ref{sec:model}). Finally, bugs can be detected with the help of the calculated models (Section \ref{sec:detection}).
 
-\section{Tokenization}
+\section{Tokenization}\label{sec:tokenization}
+In order to build a model, we need to tokenize the \scratch{} project into suitable pieces. It is hard to find the right granularity, but the important thing is that the whole project is represented by the tokens and unusual blocks can be identified. The tokenization process is based on the Abstract Syntax Tree (\AST{}) structure of \litterbox{}. For a simple start, the best way to break the project apart is to identify all drag-and-drop blocks that everyone is familiar with from \scratch{}. After isolating all bigger blocks, the question is how deep to go with the analyzation. I chose to focus on all literals and variables that can be manipulated by the \scratch{} programmer. This approach lead me to excluding all kinds of \AST{}Nodes that were only there for initialization purposes, metadata or even blocks that can only be chosen in a drop-down menu inside a block.  
 
-\section{N-gram Model Building}
 
-\section{Bug Detection}
+\section{N-gram Model Building}\label{sec:model}
+Important for the language model is to extract all possible sequences and calculate their probabilities. This way a good probability distribution is created that will be the basis for bug detection. For example, given a block sequence [GreenFlag, Hide, Show], all its consecutive subsequences are added to the model. In this case [GreenFlag, Show] would be ignored. If the analyzed project is not part of the training dataset, it is important to smooth the probability distribution in order to avoid probabilities of zero. In this implementation, I used Kensey-Key Smoothing which not only prevents non existent sequences to be shown but also emphasizes the found sequences.
+
+
+
+
+
+
+\section{Bug Detection}\label{sec:detection}
