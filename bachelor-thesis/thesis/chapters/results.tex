@@ -2,13 +2,25 @@
 % !TeX encoding = UTF-8
 % !TeX root = ../thesis.tex
 \chapter{Results}\label{chap:results}
+The main research points for this bachelor thesis are answers to the following questions:
+\begin{itemize}
+\item[\textbf{RQ1}] What is the optimal gram size for building an useful model?
+\item[\textbf{RQ2}] How long should the analysed sequences be for an effective analysation process?
+\item[\textbf{RQ3}] How effective are \ngram{} for bug detection in comparison to \litterbox{}?
+\item[\textbf{RQ4}] What kinds of violations were detected by the \ngram{}?
+\end{itemize}
+For the analysis a big dataset of \scratch{3} projects was used to create a descriptive model. Then a new set of projects was analysed to detect bugs and manually classify the problematic code blocks.
 
-\section{[RQ1] Gram size?}\label{sec:gram_size}
+\section{RQ1: Gram Size}\label{sec:gram_size}
+In order to find the best \emph{Gram Size} that should be used for the model building process, different n-gram models with \emph{Gram Sizes} ranging from 2 to 10 were built. After a calculating the probabilities of each token sequence and ranking them based on their probabilities in descending order, the bottom 10 sequences of each list were manually examined. The n-gram model that managed to find the most true bugs was chosen. (Add result...)
 
-\section{[RQ2] Sequence Length?}\label{sec:sequence_length}
+\section{RQ2: Sequence Length}\label{sec:sequence_length}
+The evalutaion of the optimal sequence length for the analysis was executed by bulding n-gram models with the \emph{Gram Size} from RQ \ref{sec:gram_size} and {Sequence Lengths} in the range from 2 to 10. Calculating probabilities from all sequences and ranking them was followed by examinig the bottom 10 sequences with low probabilities to check how many true bugs are detected. The \emph{Sequence Length} that helped to find the most bugs, is chosen as the optimal number. (Add results...)
 
-\section{[RQ3] Comparison to Litterbox}\label{sec:litterbox}
-
-\section{[RQ4] Kind of violations?}\label{sec:violations}
+\section{RQ3: Comparison to Litterbox}\label{sec:litterbox}
+On the same analysation set, \litterbox{} was used to find bugs and count how many of these bugs the \ngram{} can detect as well. (Add results...)
+ 
+\section{RQ4: Violation Classification}\label{sec:violations}
+Procedure  continued by analysing if \ngram{} found bugs that are not detected by \litterbox{}. After all potential bugs were collected in the candidate bug set, the defective code was manually classified into these categories: \textit{True Bugs, Refactoring Opportunities or False Positives}. (Add results...)
 
 

@@ -17,4 +17,6 @@ When you analyse the blocks in Figure \ref{fig:refactoring}, you notice the refa
 
 \section{Related Work}
 \paragraph{Bugram.}
+The effective usage of n-gram language models in the field of bug detection is also demonstrated by Wang et al.~\cite{bugram} with their tool \bugram{} that finds defective code with \ngram{s} in \java{} programs. Although there are other studies that covered the usage of n-grams for detecting clone bugs~\cite{clonebugs}, localizing faults~\cite{faults} and code search~\cite{codesearch}, these did not leverage n-gram models. In contrast to n-grams that are only token sequences, n-gram models are Markov models built on n-grams. 
 \paragraph{Object Usage Anomalies.}
+Interactions with objects are required to follow a specific procedure, for example by a sequence of method calls. But these standards are rarely documented and can lead to problematic behaviour in the code. Wasylkowski et al.~\cite{object_usage} infers legal sequences of method calls to code examples. The results can then be used to find anomalies in the analyzed implementation. As a automatic defect detection algorithm, it is the first of its kind that uses method call sequences to learn and detect anomalies.
