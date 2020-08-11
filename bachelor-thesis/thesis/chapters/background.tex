@@ -2,8 +2,10 @@
 % !TeX encoding = UTF-8
 % !TeX root = ../thesis.tex
 \chapter{Background}\label{chap:background}
+As this thesis merges known concepts from \scratch{} analysis and \ngram{}, we introduce the concepts our work is based on in the following sections. Section~\ref{sec:analysing-scratch} introduces \scratch{} and the already existing methods of bug detection in \scratch. Section~\ref{sec:language-models} introduces the concept of a \ngram{}. It is necessary to understand the difference between n-grams and a n-gram model and the way of using it in order to obtain valuable information about the given code.
 
-\section{Analysing Scratch Programs}\label{sec:analyzing-scratch}
+
+\section{Analysing Scratch Programs}\label{sec:analysing-scratch}
 The tools \drscratch{}~\cite{drscratch} as well as \hairball{}~\cite{hairball} analyse \scratch{} programs to find bugs and code smells. These are then reported to the user in order to improve the computational thinking and coding skills of novice programmers. Bad programming habits were assessed in a preliminary study by Moreno et al.~\cite{badhabits} and code smells that are very common in Scratch were analysed by Vargas-Alba et al.~\cite{badsmells}. Stahlbauer et al.~\cite{whisker} introduced \whisker{} which is a formal testing framework for Scratch. \litterbox, a tool created by Frädrich et al.~\cite{scratch_bugpatterns} that creates an AST of \scratch{} programs, is used for finding code smells as well as bug patterns. In this bachelor thesis, the goal is to enhance \litterbox{} by finding bugs with a \ngram{} instead of bug patterns and rules like all tools mentioned above are already able to do.
 
 
