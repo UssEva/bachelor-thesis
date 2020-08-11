@@ -2,18 +2,41 @@
 % !TeX encoding = UTF-8
 % !TeX root = ../thesis.tex
 \chapter{Methods}\label{chap:methods}
-The figure \ref{fig:overview} shows an overview of the language model and how it works. In this section, the tokenization process is described with the way the \scratch{} project is parsed and converted into tokens (Section\ref{sec:tokenization}). The next step is to use the created tokens to build the \ngram{s} (Section \ref{sec:model}). Finally, bugs can be detected with the help of the calculated models (Section \ref{sec:detection}).
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.75]{images/Overview.pdf}
+\caption{Overview of the n-gram model building process}
+\label{fig:overview}
+\end{figure}
+
+Figure \ref{fig:overview} visualizes the \ngram{} building process which is explained in this chapter in more detail. In the first section, the tokenization process is described with the way the \scratch{} project is parsed and converted into tokens (Section \ref{sec:tokenization}). The next step is to use the created tokens to build the \ngram{s} (Section \ref{sec:model}). Finally, bugs can be detected with the help of the calculated models (Section \ref{sec:detection}).
 
 \section{Tokenization}\label{sec:tokenization}
 In order to build a model, we need to tokenize the \scratch{} project into suitable pieces. It is hard to find the right granularity, but the important thing is that the whole project is represented by the tokens and unusual blocks can be identified. The tokenization process is based on the Abstract Syntax Tree (\AST{}) structure of \litterbox{}. For a simple start, the best way to break the project apart is to identify all drag-and-drop blocks that everyone is familiar with from \scratch{}. After isolating all bigger blocks, the question is how deep to go with the analyzation. I chose to focus on all literals and variables that can be manipulated by the \scratch{} programmer. This approach lead me to excluding all kinds of \AST{}Nodes that were only there for initialization purposes, metadata or even blocks that can only be chosen in a drop-down menu inside a block.  
 
-
 \section{N-gram Model Building}\label{sec:model}
-Important for the language model is to extract all possible sequences and calculate their probabilities. This way a good probability distribution is created that will be the basis for bug detection. For example, given a block sequence [GreenFlag, Hide, Show], all its consecutive subsequences are added to the model. In this case [GreenFlag, Show] would be ignored. If the analyzed project is not part of the training dataset, it is important to smooth the probability distribution in order to avoid probabilities of zero. In this implementation, I used Kensey-Key Smoothing which not only prevents non existent sequences to be shown but also emphasizes the found sequences.
-
-
-
-
-
+Important for the language model is to extract all possible sequences and calculate their probabilities. This way a good probability distribution is created that will be the basis for bug detection. For example, given a block sequence [GreenFlag, Hide, Show], all its consecutive subsequences are added to the model. In this case [GreenFlag, Show] would be ignored. If the analysed project is not part of the training dataset, it is important to smooth the probability distribution in order to avoid probabilities of zero. In this implementation, I used Add-One-Smoothing which prevents non existent sequences to be shown by adding an additional count to each n-gram. This way there are no sequences with a probability of zero stored in the model. The \emph{Gram Size} which defines the length of a token sequence is an essential part of building a \ngram{}. Existing studies found that 3 to 6-gram models gave the best results, although the optimal gram size for bug detection is still unknown. To explore this question more, I focused on analysing the effects of different gram sizes in the \scratch{} bug detection as one of my research questions that will be answered in Section \ref{sec:gram_size}.
 
 \section{Bug Detection}\label{sec:detection}
+The specific algorithm to find bugs in \scratch{} is implemented the following way. At first, the probabilities of all sequences of the analysed project have to be calculated with help of the model. After that, based on their probability the sequences are ranked and only the ones with the lowest probability get reported as potential bugs. 
+
+\subsection{Configurations}\label{subsec:configurations}
+There are a few key factors that affect the amount of bugs the language model can find and therefore can affect the results.
+\begin{itemize}
+\item \textbf{Gram Size} The \ngram{} size.
+\item \textbf{Sequence Length} The maximum length of a token sequence when analysing \scratch{} projects. 
+\item \textbf{Reporting Size} The amount of potential bugs with the least probabilities that are being reported.
+\item \textbf{Minimum Token Occurrence} Occurrence rate of a token to be considered in the n-gram model building process.
+\end{itemize} 
+\paragraph{Gram Size.}
+(Add probability calculation explanation) The important point is that a \emph{Markov} chain is used to get the conditional probability of a sequence using its n-1 token predecessors as context information. In this work, I built n-gram models with a gram size between 2 to 10 in order to find the optimal n for bug finding in \scratch{} projects (Section \ref{sec:gram_size}. 
+\paragraph{Sequence Length.}
+The length of analysed sequences of a project is essential to get a detailed analysis of the project structure. The amounts of code blocks and scripts in a \scratch{} project can vary from 1 to a few hundred. By breaking the program into smaller parts, more bugs can be obtained. Finding the right length of a token sequence is evaluated in a more detailed way in Section \ref{sec:sequence_length}.
+\paragraph{Reporting Size.}
+In contrast to the usual rule-based bug finding techniques which use a probability threshold to distinguish potential bugs from normal sequences, the \ngram{} detects token sequences of low absolute probabilities. The goal is to find the optimal parameter for the reporting size that separates buggy sequences from false positives. A larger amount of bugs that get reported from the found list, will definitely lead to a bigger size of found bugs but also means a higher risk of reporting sequences that are normal occurrences. In this implementation the reporting size is fixed at 25 reports per analysis.
+\paragraph{Minimum Token Occurrence.}
+Taking out tokens in a project that are not frequently used is a common practice for natural language processing (NLP) techniques. It reduces the chances of falsely reporting uncommon token sequences that are not bugs but just very uncommonly used. However, in this implementation of \ngram{} which is only for \scratch{} analysis purposes the minimum token occurrence is chosen as one. Because of the size difference between usual Java projects compared to normal \scratch{} projects, it would not make sense to filter out any tokens. \scratch{} programmers do not have as much freedom in their implementation because of the restriction through a block-based language and usually choose a different purpose for their programs than text-based programming languages would, which leads to much smaller projects with fewer usages of specific tokens. So, the minimum token occurrence parameter would only make it harder to find low probability sequences in projects which is why I decided not to raise this threshold for my analysis.
+
+\subsection{Pruning False Bugs}\label{subsec:false_bugs}
+Token sequences with low probability are at the bottom of a n-gram reporting list for potential bugs. But there is always the chance that the found sequence is not actually wrong but just a very unusual or special use case in which its probability would also rank rather low. To find and filter out this kind of false bugs and reduce the candidate bug set, token sequences can only be reported when they are at the bottom of at least two ranked lists of \ngram{s} with the same \emph{Gram Size} but different \emph{Sequence Lengths}. This way, sequences are sorted out that just appear on one of these lists and the chance to report false positives gets drastically reduced. 
