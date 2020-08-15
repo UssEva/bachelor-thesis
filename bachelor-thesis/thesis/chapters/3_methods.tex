@@ -30,7 +30,8 @@ There are a few key factors that affect the amount of bugs the language model ca
 \item \textbf{Minimum Token Occurrence} Occurrence rate of a token to be considered in the n-gram model building process.
 \end{itemize} 
 \paragraph{Gram Size.}
-(Add probability calculation explanation) The important point is that a \emph{Markov} chain is used to get the conditional probability of a sequence using its n-1 token predecessors as context information. In this work, I built n-gram models with a gram size between 2 to 10 in order to find the optimal n for bug finding in \scratch{} projects (Section \ref{sec:gram_size}. 
+% TODO Add probability calculation explanation reference
+The important point is that a \emph{Markov} chain is used to get the conditional probability of a sequence using its n-1 token predecessors as context information. In this work, I built n-gram models with a gram size between 2 to 10 in order to find the optimal n for bug detection in \scratch{} projects (Section \ref{sec:gram_size}. 
 \paragraph{Sequence Length.}
 The length of analysed sequences of a project is essential to get a detailed analysis of the project structure. The amounts of code blocks and scripts in a \scratch{} project can vary from 1 to a few hundred. By breaking the program into smaller parts, more bugs can be obtained. Finding the right length of a token sequence is evaluated in a more detailed way in Section \ref{sec:sequence_length}.
 \paragraph{Reporting Size.}

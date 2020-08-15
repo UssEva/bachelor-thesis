@@ -2,22 +2,26 @@
 % !TeX encoding = UTF-8
 % !TeX root = ../thesis.tex
 \chapter{Background}\label{chap:background}
-As this thesis merges known concepts from \scratch{} analysis and \ngram{}, we introduce the concepts our work is based on in the following sections. Section~\ref{sec:analysing-scratch} introduces \scratch{} and the already existing methods of bug detection in \scratch. Section~\ref{sec:language-models} introduces the concept of a \ngram{}. It is necessary to understand the difference between n-grams and a n-gram model and the way of using it in order to obtain valuable information about the given code.
+As this thesis merges known concepts from \scratch{} analysis and \ngram{}, we introduce the concepts our work is based on in the following sections. Section~\ref{sec:analysing-scratch} introduces \scratch{} and its functionality as a block-based programming language. Section~\ref{sec:language-models} introduces the concept of a \ngram{}. It is necessary to understand the difference between n-grams and a n-gram model and the way of using it in order to obtain valuable information about the given code.
 
 
 \section{Analysing Scratch Programs}\label{sec:analysing-scratch}
 
+% \textit{blocks}\footnote{\url{https://en.scratch-wiki.info/wiki/Blocks}, last accessed April 29, 2020}
+% \hyperref[def:code-smells]{code smells}
+% \textit{actors}
 \subsection{Basic Elements of \scratch}\label{subsec:scratch}
-\scratch{} is a block-based programming language.
-Programmers can choose from over hundred \textit{blocks}\footnote{\url{https://en.scratch-wiki.info/wiki/Blocks}, last accessed April 29, 2020} which look like puzzle pieces. These blocks can be connected with each other to create \scratch{} code in the \scratch{} editor\footnote{\url{https://scratch.mit.edu/projects/editor/}, last accessed April 29, 2020}. Several blocks which are connected to each other are called a \textit{script}. Usually, a script begins with a \textit{hat block} which is an event listener. The hat block is followed by an arbitrary number of blocks that define the actions which are executed after the event of the hat block occurred. Scripts belong to \textit{actors}, i.e. either the \textit{stage} or \textit{sprites}. The stage is the background of the program. Sprites are the objects acting on the stage. The script in Figure~\ref{fig:unicorn-sprite} makes the unicorn sprite respond to the \textit{when green flag clicked} event. This event is triggered every time the green flag icon above the stage is
-clicked, which is the common way to start \scratch{} programs.\\ 
-Blocks have different shapes and colours to distinguish between different categories of commands, e.g.\ event listeners, control structures or statements. Figure~\ref{fig:block-shapes} shows the different block shapes. It starts with a hat block which is followed by a C block. C blocks are shaped like the letter C and can contain other blocks. The condition of the C block is a boolean block, which compares a reporter block with a literal. Reporter and boolean blocks evaluate to String, numerical, or boolean values. The loop contains a stack block and the script ends with a cap block. The blocks can only be combined if their shapes fit together. For example, the \textit{stop all} block has a flat bottom and therefore, no other blocks can be added to the bottom of this block.
+% TODO Explain Scratch structure
 
 \subsection{The Static \scratch{} Code Analyser \litterbox}\label{subsec:litterbox}
-\litterbox{}\footnote{\url{https://github.com/se2p/LitterBox}, last accessed April 30, 2020} is a static code analysis tool for \scratch{} programs which provides the basic infrastructure for the analysis of \scratch{} programs in this bachelor's thesis. \scratch{} code is saved as a JSON file and can be downloaded, for example using the \scratch{} REST API\footnote{\url{https://projects.scratch.mit.edu}, last accessed April 30, 2020}. Based on the JSON file, \litterbox{} creates an abstract syntax tree (AST) for a \scratch{} project. In order to analyse the AST, a visitor on the AST structure can be implemented. Currently, \litterbox{} provides checks for several \hyperref[def:code-smells]{code smells} and \hyperref[def:bug-pattern]{bug patterns}~\cite{scratch_bugpatterns}.
+% TODO Litterbox
 
 
 \section{N-gram Language Models}\label{sec:language-models}
-% Introduce language models
+% TODO Introduce language models
+
+\subsection{Definition of N-gram}\label{subsec:ngram}
+
+\subsection{Model Structure}\label{subsec:ngram}
 
 
