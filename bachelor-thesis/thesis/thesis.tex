@@ -1,33 +1,22 @@
-% !TeX spellcheck = en_US
+% !TeX spellcheck = en_GB
 % !TeX encoding = UTF-8
 
 % COMPILE WITH:
 % `latexmk`
 % You need lualatex and biber (in all TeXLive distributions)
-
 \documentclass[
-    numbers=noenddot,
-    %listof=totoc,
-    parskip=half-,
-    fontsize=12pt,
-    paper=a4,
-    oneside,
-    titlepage,
-    bibliography=totoc,
-    chapterprefix=false,
+numbers=noenddot,
+%listof=totoc,
+parskip=half-,
+fontsize=12pt,
+paper=a4,
+oneside,
+titlepage,
+bibliography=totoc,
+chapterprefix=false,
+table
 %    draft
 ]{scrbook}
-
-\newcommand{\ngram}{\textsc{n-gram language model}}
-\newcommand{\litterbox}{\textsc{LitterBox}}
-\newcommand{\scratch}{\textsc{Scratch}}
-\newcommand{\bugram}{\textsc{Bugram}}
-\newcommand{\java}{\textsc{Java}}
-\newcommand{\latex}{\textsc{LaTex}}
-\newcommand{\hairball}{\textsc{Hairball}}
-\newcommand{\drscratch}{\textsc{Dr. Scratch}}
-\newcommand{\whisker}{\textsc{Whisker}}
-\newcommand{\AST}{\textsc{AST}}
 
 %\usepackage[utf8]{inputenc}
 %\usepackage[T1]{fontenc}
@@ -46,6 +35,7 @@
 
 % use lualatex or xelatex
 %\usepackage{fontspec}
+\usepackage{wrapfig}
 \usepackage[onehalfspacing]{setspace}
 
 % better language support
@@ -57,7 +47,7 @@
 \usepackage{booktabs}
 \usepackage{multicol}
 \usepackage{multirow}
-
+\usepackage{paralist}
 \usepackage[]{scrlayer-scrpage}
 
 % better bibliography (biblatex style)
@@ -72,11 +62,17 @@
 % appendix
 \usepackage[titletoc]{appendix}
 \usepackage[T1]{fontenc}
+\usepackage{siunitx}
+\usepackage{float}
 \usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{subfiles}
+\usepackage[tight,footnotesize]{subfigure}
+\usepackage{caption}
+%\usepackage[table]{xcolor}
 
 % where to put all images and figures
 \graphicspath{{images/}}
-
 
 % Title
 \title{Scratch Bug Detection Using the N-gram Language Model}
@@ -107,6 +103,8 @@
 \include{include/BA-titlepage}
 %\include{includes/MA-titlepage}
 
+\phantomsection
+\addcontentsline{toc}{chapter}{Contents}
 \tableofcontents
 \newpage
 
@@ -114,6 +112,9 @@
 
 
 % -- ABSTRACT
+\input{mycommands.tex}
+\phantomsection
+\addcontentsline{toc}{chapter}{Abstract}
 \include{include/abstract}
 \newpage
 
@@ -121,22 +122,27 @@
 %\include{includes/acknowledgements}
 \newpage
 
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Figures}
 % -- List of figures
 \thispagestyle{empty}
 \cleardoublepage
 \listoffigures
 \newpage
 
-% -- List of algorithms
+%% -- List of algorithms
 %\thispagestyle{empty}
 %\cleardoublepage
-%\listofalgorithms
+%%\listofalgorithms
 %\newpage
 
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Tables}
 % -- List of tables
 \thispagestyle{empty}
 \cleardoublepage
 \listoftables
+
 \newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -145,12 +151,12 @@
 % -- Chapters
 % following IMRaD structure
 % adjust for your liking
-\include{chapters/introduction}
-\include{chapters/background}
-\include{chapters/methods}
-\include{chapters/results}
-\include{chapters/discussion}
-\include{chapters/conclusion}
+\include{chapters/1_introduction}
+\include{chapters/2_background}
+\include{chapters/3_methods}
+\include{chapters/4_results}
+\include{chapters/5_discussion}
+\include{chapters/6_conclusion}
 
 % -- Appendix (optional)
 %\begin{appendices}
