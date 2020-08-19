@@ -2,26 +2,39 @@
 % !TeX encoding = UTF-8
 % !TeX root = ../thesis.tex
 \chapter{Background}\label{chap:background}
-As this thesis merges known concepts from \scratch{} analysis and \ngram{}, we introduce the concepts our work is based on in the following sections. Section~\ref{sec:analysing-scratch} introduces \scratch{} and its functionality as a block-based programming language. Section~\ref{sec:language-models} introduces the concept of a \ngram{}. It is necessary to understand the difference between n-grams and a n-gram model and the way of using it in order to obtain valuable information about the given code.
+As this thesis merges known concepts from \scratch{} analysis and \ngram{}, we introduce the concepts our work is based on in the following sections. Section~\ref{sec:analysing-scratch} introduces \scratch{} and its functionality as a block-based programming language as well as the \scratch{} analyser \litterbox{}. Section~\ref{sec:language-models} introduces the concept of a \ngram{}. It is necessary to understand the difference between n-grams and a n-gram model and the way of using it in order to obtain valuable information about \scratch{} code.
 
 
-\section{Analysing Scratch Programs}\label{sec:analysing-scratch}
+\section{Analysing \scratch{} Programs}\label{sec:analysing-scratch}
 
 % \textit{blocks}\footnote{\url{https://en.scratch-wiki.info/wiki/Blocks}, last accessed April 29, 2020}
 % \hyperref[def:code-smells]{code smells}
-% \textit{actors}
-\subsection{Basic Elements of \scratch}\label{subsec:scratch}
-% TODO Explain Scratch structure
+\subsection{The Structure of \scratch{}}\label{subsec:scratch}
+\scratch{}\footnote{\url{https://en.scratch-wiki.info/wiki/Scratch}, last accessed August 19, 2020} is a block-based programming language designed for kids that was created by the Massachusetts Institute of Technology (MIT). With over 50 million registered users and shared projects\footnote{\url{https://scratch.mit.edu/statistics/}, last accessed August 19, 2020} it is one of the most popular tools for teaching children from a young age how to develop computational thinking skills to solve problems programmatically.
 
-\subsection{The Static \scratch{} Code Analyser \litterbox}\label{subsec:litterbox}
-% TODO Litterbox
+The 'drag-and-drop-programming' style that \scratch{} is utilizing allows the programmer to pick from a pallet of existing blocks and build scripts by combining these code pieces like a jigsaw puzzle.
+\textit{Blocks}\footnote{\url{https://en.scratch-wiki.info/wiki/Blocks}, last accessed August 19, 2020} are separated into different types that include \textit{hat, stack, reporter, boolean and cap}. Each data type has a specific shape that indicates their intended usage in order to avoid errors in the syntax of the code. In contrast to text-based programming languages, the \textit{blocks} help children to memorize the commands and avoid structure errors that otherwise would very likely occur in the beginning. 
+
+After combining different \textit{blocks}, \textit{scripts}\footnote{\url{https://en.scratch-wiki.info/wiki/Script}, last accessed August 19, 2020} are created which resemble code methods in \java{}. \textit{Scripts} are found in the code of the actors that perform the actions, called \textit{sprites}\footnote{\url{https://en.scratch-wiki.info/wiki/Sprite}, last accessed August 19, 2020} as well as the \textit{stage}\footnote{\url{https://en.scratch-wiki.info/wiki/Stage}, last accessed August 19, 2020} which visualises the background of the created program. 
+
+% TODO Add example code (script with picture)
+
+\subsection{The Static \scratch{} Code Analyser \litterbox{}}\label{subsec:litterbox}
+\litterbox{}\footnote{\url{https://gitlab.infosun.fim.uni-passau.de/se2/litterbox}, last accessed August 19, 2020} is a static code analysis tool for detecting bugs in \scratch{} projects. The occurrence of bugs in code is mostly the consequence of recurring bad code writing habits that visualise in code smells and refactoring opportunities. With the help of \litterbox{} these bug patterns can be filtered and analysed in order to fix found bugs and avoid similar mistakes in the future. \litterbox{} is developed at the Chair of Software Engineering II and the Didactics of Informatics of the University of Passau.
+
+% TODO Add access information for LitterBox
 
 
-\section{N-gram Language Models}\label{sec:language-models}
+\section{N-gram Language Model}\label{sec:language-models}
 % TODO Introduce language models
 
-\subsection{Definition of N-gram}\label{subsec:ngram}
+\subsection{Definition of N-grams}\label{subsec:ngram}
+% TODO Explain Markov chain and probability calculation
 
-\subsection{Model Structure}\label{subsec:ngram}
+\subsection{Probability Calculation with N-gram Model}\label{subsec:ngram}
+% TODO Define key words (Token, GramSize, SequenceLength, ReportingSize, Minimum Token Occurence, Probability Threshold
+
+
+
 
 
