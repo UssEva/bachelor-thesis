@@ -2,6 +2,7 @@
 % !TeX encoding = UTF-8
 % !TeX root = ../thesis.tex
 \chapter{N-Gram Bug Detection in \scratch{}}\label{chap:methods}
+%TODO Unfinished chapter!
 
 \begin{figure}[hbtp]
 \centering
@@ -12,26 +13,41 @@
 
 Figure \ref{fig:overview} visualizes the \ngram{} building process which is explained in this chapter in more detail. In the first section, the tokenization process is described with the way the \scratch{} project is parsed and converted into tokens (Section \ref{sec:tokenization}). The next step is to use the created tokens to build the \ngram{s} (Section \ref{sec:model}). Finally, bugs can be detected with the help of the calculated models (Section \ref{sec:detection}).
 
-\section{Tokenization}\label{sec:tokenization}
-In order to build a model, we need to tokenize the \scratch{} project into suitable pieces. It is hard to find the right granularity, but the important thing is that the whole project is represented by the tokens and unusual blocks can be identified. The tokenization process is based on the Abstract Syntax Tree (\AST{}) structure of \litterbox{}. For a simple start, the best way to break the project apart is to identify all drag-and-drop blocks that everyone is familiar with from \scratch{}. After isolating all bigger blocks, the question is how deep to go with the analyzation. I chose to focus on all literals and variables that can be manipulated by the \scratch{} programmer. This approach lead me to excluding all kinds of \AST{}Nodes that were only there for initialization purposes, metadata or even blocks that can only be chosen in a drop-down menu inside a block.  
+\section{Tokenization of \scratch{} Code}\label{sec:tokenization}
+In order to build a model, we need to tokenize the \scratch{} project into suitable pieces:
 
-\section{N-gram Model Building}\label{sec:model}
-Important for the language model is to extract all possible sequences and calculate their probabilities. This way a good probability distribution is created that will be the basis for bug detection. For example, given a block sequence [GreenFlag, Hide, Show], all its consecutive subsequences are added to the model. In this case [GreenFlag, Show] would be ignored. If the analysed project is not part of the training dataset, it is important to smooth the probability distribution in order to avoid probabilities of zero. In this implementation, Add-One-Smoothing was utilized which prevents non existent sequences to be shown by adding an additional count to each n-gram. This way there are no sequences with a probability of zero stored in the model. The \textit{Gram Size} which defines the length of a token sequence is an essential part of building a \ngram{}. Existing studies found that 3 to 6-gram models gave the best results, although the optimal gram size for bug detection is still unknown. To explore this question more, I focused on analysing the effects of different gram sizes in the \scratch{} bug detection as one of my research questions that will be answered in Section \ref{sec:gram_size}.
+\begin{definition}[Token]\label{def:token}
+    %
+    ``A token is a single fragment of \scratch{} code that is used to partition code into smaller pieces in order to obtain information about its syntax on a specific granularity level.''
+    %
+\end{definition}
 
-\section{Bug Detection}\label{sec:detection}
+%TODO Rewrite in more detail
+It is hard to find the right granularity, but the important thing is that the whole project is represented by the tokens and unusual blocks can be identified. The tokenization process is based on the Abstract Syntax Tree (\AST{}) structure of \litterbox{}. For a simple start, the best way to break the project apart is to identify all drag-and-drop blocks that everyone is familiar with from \scratch{}. After isolating all bigger blocks, the question is how deep to go with the analyzation. I chose to focus on all literals and variables that can be manipulated by the \scratch{} programmer. This approach lead me to excluding all kinds of \AST{}Nodes that were only there for initialization purposes, metadata or even blocks that can only be chosen in a drop-down menu inside a block.  
+
+\section{N-gram Model Building in \scratch{}}\label{sec:model}
+%TODO Add introduction to subsections
+
+\subsection{Calculating and Adding N-grams}\label{subsec:n-grams}
+%TODO Calculation of N-grams algorithm and example + reference to n-gram calculation
+Important for the language model is to extract all possible sequences and calculate their probabilities. This way a good probability distribution is created that will be the basis for bug detection. For example, given a block sequence [GreenFlag, Hide, Show], all its consecutive subsequences are added to the model. In this case [GreenFlag, Show] would be ignored. 
+
+The \textit{Gram Size} which defines the length of a token sequence is an essential part of building a \ngram{}. Existing studies found that 3 to 6-gram models gave the best results, although the optimal gram size for bug detection is still unknown. To explore this question more, I focused on analysing the effects of different gram sizes in the \scratch{} bug detection as one of my research questions that will be answered in Section \ref{sec:gram_size}.
+%TODO Add reference to defintion of gram size
+
+\subsection{Smoothing of Probability Distribution}\label{subsec:smoothing}
+If the analysed project is not part of the training dataset, it is important to smooth the probability distribution in order to avoid probabilities of zero. In this implementation, Add-One-Smoothing was utilized which prevents non existent sequences to be shown by adding an additional count to each n-gram. This way there are no sequences with a probability of zero stored in the model. 
+%TODO More details about smoothing methods and algorithm
+
+
+\section{Bug Detection in \scratch{}}\label{sec:detection}
 The specific algorithm to find bugs in \scratch{} is implemented the following way. At first, the probabilities of all sequences of the analysed project have to be calculated with help of the model. After that, based on their probability the sequences are ranked and only the ones with the lowest probability get reported as potential bugs. 
+%TODO Reference to n-gram probability calculation
 
 \subsection{Configurations}\label{subsec:configurations}
-There are a few key factors that affect the amount of bugs the language model can find and therefore affect the results.
-\begin{itemize}
-\item \textbf{Gram Size} The \ngram{} size.
-\item \textbf{Sequence Length} The maximum length of a token sequence when analysing \scratch{} projects. 
-\item \textbf{Reporting Size} The amount of potential bugs with the least probabilities that are being reported.
-\item \textbf{Minimum Token Occurrence} Occurrence rate of a token to be considered in the n-gram model building process.
-\item \textbf{Probability Threshold} If a sequence does not reach this threshold, it can be considered a bug or unusual occurrence. 
-\end{itemize} 
+
 \paragraph{Gram Size.}
-% TODO Add probability calculation explanation reference
+%TODO Add probability calculation explanation reference
 The important point is that a \textit{Markov} chain is used to get the conditional probability of a sequence using its n-1 token predecessors as context information. In this work, I built n-gram models with a gram size between 2 to 10 in order to find the optimal n for bug detection in \scratch{} projects (Section \ref{sec:gram_size}. 
 \paragraph{Sequence Length.}
 The length of analysed sequences of a project is essential to get a detailed analysis of the project structure. The amounts of code blocks and scripts in a \scratch{} project can vary from 1 to a few hundred. By breaking the program into smaller parts, more bugs can be obtained. Finding the right length of a token sequence is evaluated in a more detailed way in Section \ref{sec:sequence_length}.
