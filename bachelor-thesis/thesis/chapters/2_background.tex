@@ -17,14 +17,21 @@ The 'drag-and-drop-programming' style that \scratch{} is utilizing allows the pr
 \textit{Blocks}\footnote{\url{https://en.scratch-wiki.info/wiki/Blocks}, last accessed August 19, 2020} are separated into different types that include \textit{hat, stack, reporter, boolean and cap}. Each data type has a specific shape that indicates their intended usage in order to avoid errors in the syntax of the code. In contrast to text-based programming languages, the \textit{blocks} help children to memorize the commands and avoid structure errors that otherwise would very likely occur in the beginning. 
 
 After combining different \textit{blocks}, \textit{scripts}\footnote{\url{https://en.scratch-wiki.info/wiki/Script}, last accessed August 19, 2020} are created which resemble code methods in \java{}. \textit{Scripts} are found in the code of the actors that perform the actions, called \textit{sprites}\footnote{\url{https://en.scratch-wiki.info/wiki/Sprite}, last accessed August 19, 2020} as well as the \textit{stage}\footnote{\url{https://en.scratch-wiki.info/wiki/Stage}, last accessed August 19, 2020} which visualises the background of the created program. 
-%TODO Add general structure of scratch programs with picture of all available blocks
+
+Figure~\ref{fig:scratchblocks} shows the typical structure of a \scratch{} \textit{script} that uses most of the before mentioned data types. Starting the \textit{script} with a \textit{hat} and ending with a \textit{cap} block, there are also 10 different categories that each block is assigned to: \textit{Motion, Looks, Sound, Event, Control, Sensing, Operators, Variables, List, and My Blocks}. 
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[scale=0.4]{scratchblocks.png}
+    \caption[All types of scratch blocks]{\label{fig:scratchblocks} A script showing all possible scratch block types}
+\end{figure}
 
 For instance, the Figure~\ref{fig:script} of a \scratch{} project that is based on the band BTS\footnote{\url{https://scratch.mit.edu/projects/308718195/}, last accessed August 20, 2020} shows a \textit{script} that controls the picture of one of the band members called Jungkook which is shown in Figure~\ref{fig:sprite}. Once the user clicks on the profile picture of Jungkook, the 'click' event of the \textit{script} is fired and the text "Saranghae <3" is shown for 2 seconds.
 
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=0.5]{jungkook_script.png}
-    \caption[A \scratch{} script controlling the sprite]{\label{fig:script} The program that controls the sprite.}
+    \includegraphics[scale=0.4]{jungkook_script.png}
+    \caption[Program that controls a sprite]{\label{fig:script} A \scratch{} script controlling a corresponding sprite}
 \end{figure}
 
 \begin{figure}[t]
@@ -42,7 +49,7 @@ For instance, the Figure~\ref{fig:script} of a \scratch{} project that is based 
             \includegraphics[scale=0.5]{jungkook_stage_action.png}
         \end{minipage}
     }
-    \caption[A \scratch{} stage and sprite that respond to events]{\label{fig:sprite}Picture of the sprite on its stage and its reaction after the executed event.}
+    \caption[A sprite's reaction after an executed event]{\label{fig:sprite}A \scratch{} stage and sprite that respond to events}
     \vspace{-1em}
 \end{figure}
 
@@ -51,10 +58,10 @@ For instance, the Figure~\ref{fig:script} of a \scratch{} project that is based 
 
 
 \section{N-gram Language Model}\label{sec:language-models}
-Statistical language models, in its essence, are the type of models that assign probabilities to the sequences of words. The \ngram{} is the simplest model that assigns probabilities to sentences and sequences of words. You can think of an N-gram as the sequence of N words, by that notion, a 2-gram (or bigram) is a two-word sequence of words like 'please read', 'read very', or 'very carefully', and a 3-gram (or trigram) is a three-word sequence of words like 'please read very', or 'read very carefully'.
+Statistical language models, in its essence, are the type of models that assign probabilities to the sequences of words. The \ngram{} is the simplest model that assigns probabilities to sentences and sequences of words. You can think of an N-gram as the sequence of N words. A 2-gram or bigram is a two-word sequence of words like 'please read', 'read very', or 'very carefully', and a 3-gram or trigram is a three-word sequence of words like 'please read very', or 'read very carefully'.
 
 \subsection{Probability Calculation of N-grams}\label{subsec:ngram}
-%TODO Explain Markov chain and probability calculation
+%TODO Explain Markov chain and probability calculation   
 
 \subsection{N-gram Model Configuration}\label{subsec:ngram}
 There are five key factors that affect the amount of bugs that a language model can find. These are the important \textit{configuration parameters} that need to be set in order to achieve optimal results:  
