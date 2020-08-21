@@ -32,7 +32,19 @@ For the analysis a big dataset of \scratch{3} projects was used to create a desc
 In order to have a sufficient number of scripts and sprites to calculate a probability distribution from, we decided to build the \ngram{} on a large dataset. The dataset consists of \numlarge\ \scratch\ projects. From \monthstart\ to \monthend\ we downloaded the most recent projects with the \scratch\ REST API\footnote{\url{https://github.com/LLK/scratch-rest-api/wiki}, last accessed May 8, 2020}. We did not exclude remixes from the dataset.
 
 \subsection{Bug Finding Set}\label{subsec:bugset}
-%TODO Add specification and criteria for bugset
+%TODO Add specification and criteria for bugset / Update table
+
+\begin{table}[H]
+    \centering
+    \caption[Projects evaluated in our experiments.]{\label{tab:projects}Projects evaluated in our experiments}
+    \begin{tabular}{lrrr}
+        \toprule
+        Project & Size & \#Sprites & \#Blocks \\
+        \midrule
+        Fruit Catching & kb & 42 & 295 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 
 \section{RQ1: Gram Size}\label{sec:gram_size}
@@ -56,7 +68,7 @@ On the same analysis set, \litterbox{} was used to find bugs and count how many 
 %TODO Update table: Project #LitterboxBugs #NgramBugs
 \begin{table}[H]
     \centering
-    \caption[The number of reported bugs found by \litterbox{} and N-gram model.]{\label{tab:aums-pupilset}The number of reported bugs found by \litterbox{} and N-gram model}
+    \caption[The number of reported bugs found by \litterbox{} and N-gram model.]{\label{tab:litterbox}The number of reported bugs found by \litterbox{} and N-gram model}
     \begin{tabular}{lrr}
         \toprule
         Project & \#LitterboxBugs & \#NgramBugs \\
@@ -74,7 +86,7 @@ Procedure  continued by analysing if \ngram{} found bugs that are not detected b
 %TODO Update table: #ReportedBugs #TrueBugs #Refactoring #FalsePositive
 \begin{table}[H]
     \centering
-    \caption[The categorization of all reported bugs.]{\label{tab:aums-pupilset}The categorization of all reported bugs}
+    \caption[The categorization of all reported bugs.]{\label{tab:violations}The categorization of all reported bugs}
     \begin{tabular}{lrrr}
         \toprule
         \#ReportedBugs & \#TrueBugs & \#Refactoring & \#FalsePositive \\
@@ -86,6 +98,9 @@ Procedure  continued by analysing if \ngram{} found bugs that are not detected b
 
 
 \section{Threats to Validity}\label{sec:threats-to-validity}
-%TODO Add threats to validity
-Threats to validity ...
+\paragraph{Implementation of N-gram Model.}
+To compare the results of \litterbox{} with the n-gram model approach, we implemented the n-gram language model as close as possible to the information given from the \bugram{}~\cite{bugram} paper and based on the \AST{} that is created by \litterbox{} out of \scratch{} projects in JSON format. For our implementation, we have tried our best to tune the configuration parameters to obtain the best results. Our comparison is fair because both \litterbox{} as well as \ngram{} are evaluated on the same projects.
+
+\paragraph{Bugs are manually verified.}
+Following the \bugram{}~\cite{bugram} paper, reported bugs were assessed manually in order to approve and classify all low probability token sequences and distinguish between, i.e., true bugs, refactoring opportunities and false positives. Since we are not the original programmers of the analysed projects that are featured in this bachelor's thesis, the examination of the code is not objective. But because of common practice, it is an acceptable approach for the assessment of the given code.
 
