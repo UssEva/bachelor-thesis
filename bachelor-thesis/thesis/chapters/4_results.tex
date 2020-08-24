@@ -21,7 +21,6 @@ The main research points for this bachelor's thesis are answers to the following
 \item[\textbf{RQ3}] How effective are \ngram{s} for bug detection in comparison to \litterbox{}?
 \item[\textbf{RQ4}] What kinds of violations were detected by the \ngram{}?
 \end{itemize}
-For the analysis a big dataset of \scratch{3} projects was used to create a descriptive model. Then a new set of projects was analysed to detect bugs and manually classify the problematic code blocks.
 
 
 \section{Datasets}\label{sec:dataset}
@@ -32,25 +31,22 @@ This section shows the two different datasets that were used for the bachelor's 
 In order to have a sufficient number of scripts and sprites to calculate a probability distribution from, we decided to build the \ngram{} on a large dataset. The dataset consists of \numlarge\ \scratch\ projects. From \monthstart\ to \monthend\ we downloaded the most recent projects with the \scratch\ REST API\footnote{\url{https://github.com/LLK/scratch-rest-api/wiki}, last accessed May 8, 2020}. We did not exclude remixes from the dataset.
 
 \subsection{Bug Finding Set}\label{subsec:bugset}
-The dataset for bug detection was downloaded from \scratch{} in August and randomly chosen in order to have an unbiased analysis of different types of \scratch{} projects. But the chosen projects had to fulfil a few criteria and restrictions to proof their suitability and make a manual examination possible. The project has to...
-\begin{itemize}
-\item ...not be empty.
-\item ...have a minimum of 1 non-empty sprite.
-\item ...have a maximum of 20 sprites.
-\item ...have at least 2 code smells.
-\item ...consist of 10 to 1000 blocks.
-\end{itemize}
-
-%TODO Update table
-The following projects were chosen to test bug detection with the n-gram model, thus they fulfil all above mentioned criteria. 
+%TODO Add used dataset with criteria, gadgets, time,...
+The second dataset we use to evaluate the \ngram{} is a set of solutions for five small coding tasks for students. Based on the task the pupils had to implement, we call these sets \textit{Monkey}, \textit{Elephant}, \textit{Cat}, \textit{Horse} and \textit{Fruit Catching} task.
+We used solutions of pupils which originate in primary programming education~\cite{katharina} for the Monkey, Elephant, Cat and Horse tasks. For the Fruit Catching task we used the same dataset as Stahlbauer et al. in their work about testing \scratch\ programs automatically~\cite{whisker}. Table~\ref{tab:big-dataset} shows the number of projects for each task. 
+ 
 \begin{table}[H]
     \centering
-    \caption[Projects evaluated in our experiments]{\label{tab:projects}Projects evaluated in our experiments}
-    \begin{tabular}{lrrr}
+    \caption[Projects evaluated in our experiments]{\label{tab:big-dataset}Projects evaluated in our experiments}
+    \begin{tabular}{lr}
         \toprule
-        Project & Size & \#Sprites & \#Blocks \\
+        Task & \#Projects \\
         \midrule
-        Fruit Catching & kb & 42 & 295 \\
+        Fruit Catching & 42 \\
+        Monkey & 120 \\
+        Elephant & 130 \\
+        Cat & 129 \\
+        Horse & 73 \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -65,14 +61,14 @@ In order to find the best \textit{gram size} that should be used for the model b
 
 \section{RQ2: Sequence Length}\label{sec:sequence_length}
 %TODO Update execution
-The evaluation of the optimal sequence length for the analysis was executed by building n-gram models with the \textit{gram size} from RQ \ref{sec:gram_size} and {sequence lengths} in the range from 2 to 10. Calculating probabilities from all sequences and ranking them was followed by examining the bottom 10 sequences with low probabilities to check how many true bugs are detected. The \textit{sequence length} that helped to find the most bugs, is chosen as the optimal number. (Add results...)
+The evaluation of the optimal sequence length for the analysis was executed by building n-gram models with the \textit{gram size} from Section~\ref{sec:gram_size} and {sequence lengths} in the range from 2 to 10. Calculating probabilities from all sequences and ranking them was followed by examining the bottom 10 sequences with low probabilities to check how many true bugs are detected. The \textit{sequence length} that helped to find the most bugs, is chosen as the optimal number. (Add results...)
 
 %TODO Add diagram: Bugs per sequence length
 
 
 \section{RQ3: Comparison to Litterbox}\label{sec:litterbox}
-%TODO Find bugs with litterbox
-On the same analysis set, \litterbox{} was used to find bugs and count how many of these bugs the \ngram{} can detect as well. (Add results...)
+%TODO Find bugs with litterbox, fix gram size and sequence lengh
+After setting the \textit{gram size} and \textit{sequence length} both on a fixed size which the information that was gathered by the first research questions showed, the same set of projects is used for a comparison between \litterbox{} and \ngram{} approach. The projects get all analysed by \litterbox{} and the \ngram{} to test how many sequences are reported with the different methods. (Add results...)
 
 %TODO Update table: Project #LitterboxBugs #NgramBugs
 \begin{table}[H]
@@ -80,9 +76,13 @@ On the same analysis set, \litterbox{} was used to find bugs and count how many 
     \caption[The number of reported bugs found by \litterbox{} and N-gram model]{\label{tab:litterbox}The number of reported bugs found by \litterbox{} and N-gram model}
     \begin{tabular}{lrr}
         \toprule
-        Project & \#LitterboxBugs & \#NgramBugs \\
+        Task & \#LitterboxBugs & \#NgramBugs \\
         \midrule
-        Fruit Catching & 42 & 295 \\
+        Fruit Catching &  &\\
+        Monkey &  &  \\
+        Elephant &  & \\
+        Cat &  &  \\
+        Horse & &  \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -90,17 +90,39 @@ On the same analysis set, \litterbox{} was used to find bugs and count how many 
  
 \section{RQ4: Violation Classification}\label{sec:violations}
 %TODO Find bugs and show examples
-Procedure  continued by analysing if \ngram{} found bugs that are not detected by \litterbox{}. After all potential bugs were collected in the candidate bug set, the defective code was manually classified into these categories: \textit{True Bugs, Refactoring Opportunities or False Positives}. (Add results...)
+The analysis procedure is continued by analysing specifically the bugs that are reported by the \ngram{}. For each task the project with the most found bugs is manually analysed to estimate the rate of false positives. Table~\ref{tab:small-dataset} shows the projects that were chosen for further assessment as well as their important information.
+
+\begin{table}[H]
+    \centering
+    \caption[Small Dataset with one project of each task]{\label{tab:small-dataset}Small dataset}
+    \begin{tabular}{lrrrr}
+        \toprule
+        Task & Project & Size & \#Scripts & \#Blocks \\
+        \midrule
+        Fruit Catching  & & & & \\
+        Monkey  & & & &  \\
+        Elephant  & & & & \\
+        Cat  & & & &  \\
+        Horse & & & & \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+After all by \ngram{} detected potential bugs were collected in the candidate bug set, the defective code is manually classified into the following categories: \textit{True Bugs, Refactoring Opportunities or False Positives}. Table~\ref{tab:violations} displays the numbers for each category.
 
 %TODO Update table: #ReportedBugs #TrueBugs #Refactoring #FalsePositive
 \begin{table}[H]
     \centering
     \caption[The categorization of all reported bugs]{\label{tab:violations}The categorization of all reported bugs}
-    \begin{tabular}{lrrr}
+    \begin{tabular}{lrrrr}
         \toprule
-        \#ReportedBugs & \#TrueBugs & \#Refactoring & \#FalsePositive \\
+        Task & \#ReportedBugs & \#TrueBugs & \#Refactoring & \#FalsePositive \\
         \midrule
-        150 & 42 & 95 & 13 \\
+        Fruit Catching  & & & & \\
+        Monkey  & & & &  \\
+        Elephant  & & & & \\
+        Cat  & & & &  \\
+        Horse & & & & \\
         \bottomrule
     \end{tabular}
 \end{table}

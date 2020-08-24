@@ -26,7 +26,7 @@ Figure~\ref{fig:scratchblocks} shows the typical structure of a \scratch{} \text
     \caption[All types of scratch blocks]{\label{fig:scratchblocks} A script showing all possible scratch block types}
 \end{figure}
 
-For instance, the Figure~\ref{fig:script} of a \scratch{} project that is based on the band BTS\footnote{\url{https://scratch.mit.edu/projects/308718195/}, last accessed August 20, 2020} shows a \textit{script} that controls the picture of one of the band members called Jungkook which is shown in Figure~\ref{fig:sprite}. Once the user clicks on the profile picture of Jungkook, the 'click' event of the \textit{script} is fired and the text "Saranghae <3" is shown for 2 seconds.
+For instance, the Figure~\ref{fig:script} of a \scratch{} project that is based on the band BTS\footnote{\url{https://scratch.mit.edu/projects/308718195/}, last accessed August 20, 2020} shows a \textit{script} that controls the picture of one of the band members which is shown in Figure~\ref{fig:sprite}. Once the user clicks on the profile picture of Jungkook, the 'click' event of the \textit{script} is fired and the text "Saranghae <3" is shown for 2 seconds.
 
 \begin{figure}[t]
     \centering
@@ -58,12 +58,34 @@ For instance, the Figure~\ref{fig:script} of a \scratch{} project that is based 
 
 
 \section{N-gram Language Model}\label{sec:language-models}
-Statistical language models, in its essence, are the type of models that assign probabilities to the sequences of words. The \ngram{} is the simplest model that assigns probabilities to sentences and sequences of words. You can think of an N-gram as the sequence of N words. A 2-gram or bigram is a two-word sequence of words like 'please read', 'read very', or 'very carefully', and a 3-gram or trigram is a three-word sequence of words like 'please read very', or 'read very carefully'.
+Statistical language models, in its essence, are the type of models that assign probabilities to the sequences of words. The \ngram{} is the simplest model that assigns probabilities to sentences and sequences of words. You can think of an N-gram as the sequence of N words. A 2-gram or bigram is a two-word sequence of words like 'please read', 'read very', or 'very carefully', and a 3-gram or trigram is a three-word sequence of words like 'please read very', or 'read very carefully'. 
 
 \subsection{Probability Calculation of N-grams}\label{subsec:ngram}
-%TODO Explain Markov chain and probability calculation   
+\ngram{} usually consists of sentences \textit{s} of words \textit{w} that are all based on a specific dictionary {D}. Using \hyperref[def:markov_chain]{Markov chains} the language model calculates a  probabilistic distribution of all possible sequences that can occur in the language based on \textit{D}.
 
+\begin{definition}[Markov chain]\label{def:markov_chain}
+    %
+    ``A usually discrete stochastic process (such as a random walk) in which the probabilities of occurrence of various future states depend only on the present state of the system or on the immediately preceding state and not on the path by which the present state was achieved''~\cite{markov_chain}
+    %
+\end{definition} 
+
+The probability of \textit{s} is then calculated by partitioning it into its individual words \textit{w}. But the probability of \textit{w} is only dependent on the n-1 previous words. Given a sentence \( s = w_1w_2w_3\cdots w_m \) the probability is estimated with the Formula ~\ref{eq:ngram-prob} where \(h_i = w_{1-n}\cdots w_i \) is the history sequence for the conditional probability of \(w_i\):
+
+\begin{equation} \label{eq:ngram-prob}
+P(x) ={} \displaystyle\prod_{i=1}^{m} P(w_i|h_{i-1})
+\end{equation}
+
+For instance, in the case of a 3-gram each word is dependent on the probability of the last \(n - 1 = 3 - 1 = 2 \) words. Therefore the probability of the sentence s = 'Would you like to go outside?' can be estimated with the Formula~\ref{eq:trigram-prob}:
+
+\begin{equation}\label{eq:trigram-prob}
+\begin{aligned}
+P(s) ={} & P(Would)\cdot P(you|Would)\cdot P(like|Would\ you) \\ 
+		 & \cdot P(to|you\ like)\cdot P(go|like\ to)\cdot P(outside|to\ go)
+\end{aligned}
+\end{equation} 
+  
 \subsection{N-gram Model Configuration}\label{subsec:ngram}
+%TODO Explain n-gram model
 There are five key factors that affect the amount of bugs that a language model can find. These are the important \textit{configuration parameters} that need to be set in order to achieve optimal results:  
 
 \begin{definition}[Gram Size]\label{def:gram_size}
@@ -95,5 +117,3 @@ There are five key factors that affect the amount of bugs that a language model 
     ``If a \hyperref[def:token]{token} sequence does not reach this probability threshold, it can be considered a bug or unusual occurrence.''
     %
 \end{definition}
-
-%TODO Explain n-gram model
