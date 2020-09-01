@@ -34,23 +34,12 @@ For instance, the Figure~\ref{fig:script} of a \scratch{} project that is based 
     \caption[Program that controls a sprite]{\label{fig:script} A \scratch{} script controlling a corresponding sprite}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}%
     \centering
-    \subfigure[Sprite in front of a background]{
-        \begin{minipage}[t]{0.4\columnwidth}
-            \centering
-            \includegraphics[scale=0.5]{jungkook_stage.png}
-        \end{minipage}
-    }
-    \hfill
-    \subfigure[Sprite responding to the clicked event]{
-        \begin{minipage}[t]{0.4\columnwidth}
-            \centering
-            \includegraphics[scale=0.5]{jungkook_stage_action.png}
-        \end{minipage}
-    }
-    \caption[A sprite's reaction after an executed event]{\label{fig:sprite}A \scratch{} stage and sprite that respond to events}
-    \vspace{-1em}
+    \subfloat[Sprite in front of a background]{{\includegraphics[width=7cm]{jungkook_stage.png} }}%
+    \qquad
+    \subfloat[Sprite responding to the clicked event]{{\includegraphics[width=7cm]{jungkook_stage_action.png} }}%
+    \caption[A sprite's reaction after an executed event]{\label{fig:sprite}A \scratch{} stage and sprite that respond to events}%
 \end{figure}
 
 \subsection{The Static \scratch{} Code Analyser \litterbox{}}\label{subsec:litterbox}
@@ -84,15 +73,16 @@ P(s) ={} & P(Would)\cdot P(you|Would)\cdot P(like|Would\ you) \\
 \end{aligned}
 \end{equation} 
   
-\subsection{N-gram Model Configuration}\label{subsec:ngram}
+\subsection{N-gram Model Configuration}\label{subsec:configuration}
 %TODO Explain n-gram model
 There are five key factors that affect the amount of bugs that a language model can find. These are the important \textit{configuration parameters} that need to be set in order to achieve optimal results:  
 
 \begin{definition}[Gram Size]\label{def:gram_size}
     %
-    ``The size of an n-gram model. Different gram sizes enable the model to use different internal probabilities to calculate the probabilities of \hyperref[def:token]{token} sequences.''~\cite{bugram}
+    ``The size of a n-gram model. Different gram sizes enable the model to use different internal probabilities to calculate the probabilities of \hyperref[def:token]{token} sequences.''~\cite{bugram}
     %
 \end{definition}
+The \hyperref[def:gram_size]{gram size n} is an essential part of building a \ngram{} and calculating the probabilities of a token sequence by utilizing n-1 predecessors. Existing studies found that 3 to 6-gram models gave the best results, although the optimal \textit{gram size} for bug detection is still unknown. To explore this question more, Section \ref{sec:gram_size} focuses on analysing the effects of different gram sizes in the \scratch{} bug detection as one of the research questions of this bachelor's thesis.
 
 \begin{definition}[Sequence Length]\label{def:sequence_length}
     %
@@ -100,11 +90,15 @@ There are five key factors that affect the amount of bugs that a language model 
     %
 \end{definition}
 
+The \hyperref[def:sequence_length]{length} of analysed sequences of a project is essential to get a detailed analysis of the project structure. The amounts of code blocks and scripts in a \scratch{} project can vary from 1 to a few hundred. By breaking the program into smaller parts, more bugs can be obtained.
+
 \begin{definition}[Reporting Size]\label{def:reporting_size}
     %
     ``The number of sequences, in the bottom of the ranked list, which will be reported as bugs. An appropriate number may reduce the amount of false positives.''~\cite{bugram}
     %
 \end{definition}
+
+In contrast to the usual rule-based bug finding techniques which use a probability threshold to distinguish potential bugs from normal sequences, the \ngram{} detects token sequences of low absolute probabilities. The goal is to find the optimal parameter for the \hyperref[def:reporting_size]{reporting size} that separates buggy sequences from false positives. A larger amount of bugs that get reported from the found list, will definitely lead to a bigger size of found bugs but also means a higher risk of reporting sequences that are normal occurrences.
 
 \begin{definition}[Minimum Token Occurrence]\label{def:minimum_token_occurrence}
     %
@@ -112,8 +106,12 @@ There are five key factors that affect the amount of bugs that a language model 
     %
 \end{definition}
 
+Taking out tokens in a project that are not frequently used by manifesting a \hyperref[def:minimum_token_occurrence]{minimum token occurrende} is common practice for natural language processing (NLP) techniques. It reduces the chances of falsely reporting uncommon token sequences that are not bugs but just very uncommonly used. 
+
 \begin{definition}[Probability Threshold]\label{def:probability_threshold}
     %
     ``If a \hyperref[def:token]{token} sequence does not reach this probability threshold, it can be considered a bug or unusual occurrence.''
     %
 \end{definition}
+
+After the analysis of a project a number of sequences with the least calculated probabilities are getting reported as bugs. But in order to minimize the amount of false positives in the bug set, it is common practice to determine a \hyperref[def:probability_threshold]{probability threshold} that differentiates a bug from a rare occurrence of a sequence. 
