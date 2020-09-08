@@ -31,46 +31,43 @@ In order to identify unusual block sequences in a \scratch{} project, each proje
 \label{fig:ast}
 \end{figure}
 
-For a simple \scratch{} project with only one [GreenFlag] block, the tree structure is already pretty big. This is caused by the amount of additional information blocks that are created by the \litterbox{} \AST{} but are not necessary or even part of the essential tokens we need for the \ngram{}. Here in Table~\ref{tab:tokens} is a quick overview of all categories of blocks that are being used for the tokenization and the ones that are excluded in order to keep the n-gram model later as small as possible.   
+For a simple \scratch{} project with only one [GreenFlag] block, the tree structure is already pretty big. This is caused by the amount of additional information \textit{Nodes} that are created by the \litterbox{} \AST{} but are not necessary or even part of the essential tokens we need for the \ngram{}. In Table~\ref{tab:excluded-metadata} is a quick overview of all \AST\-only \textit{Nodes} that are only for information purposes, whereas in Table~\ref{excluded-blocks} there are real \scratch\ blocks that exist in the \AST\ that were excluded for different reasons. These \textit{Node} are all excluded for the tokenization in order to keep the n-gram model as small as possible and increase bug detection efficiency.   
 
 %TODO Add examples to table!
 \begin{table}[H]
-    \caption[The used tokens for the n-gram model]{\label{tab:tokens}The used tokens for tokenization of \scratch\ projects.}
+    \caption[The excluded information-based \AST\ Nodes]{\label{tab:excluded-metadata}The excluded information-based \AST\ Nodes for tokenization of \scratch\ projects.}
 
-    \begin{tabular}[t]{lllll}
-        \toprule
-        Category & Example & Used & Not-Used & Reason \\
-        \midrule
+    \begin{tabular}[t]{lll}
+    	\toprule
+    	Class & Type & Example \\
+    	\midrule
+    	\vspace{10pt}
+        Program & AbstractNode & Placeholder for whole project\\
         \vspace{10pt}
-        URI & & & & \\
+        StrId & LocalIdentifier & Project ID \\
         \vspace{10pt}
-        Actor & & & & \\
+        ActorDefinitionList & AbstractNode & List of ActorDefinitions \\
+        \vspace{10pt}   
+        ActorDefinition & AbstractNode & Information storage of Actor \\
         \vspace{10pt}
-        Script & & & & \\
+        ActorType & ASTLeaf & STAGE, SPRITE \\  
+        \vspace{10pt} 
+        SetStmtList & AbstractNode & List of Attributes to set \\
         \vspace{10pt}
-        Elementchoice & & & & \\
+        DeclarationStmt &  & \\
         \vspace{10pt}
-        Event & & & & \\
+        ProcedureDefinitionList & & \\
         \vspace{10pt}
-        Identifier & & & & \\
+        ProcedureDefinition & & \\
         \vspace{10pt}
-        Literals & & & & \\
+        Metadata & &  \\
         \vspace{10pt}
-        Metadata & & & & \\
+        SetAttributeTo & &  \\
         \vspace{10pt}
-        Position & & & & \\
+        ScriptList & &  \\
         \vspace{10pt}
-        Procedure & & & & \\
-        \vspace{10pt}
-        Statement & & & & \\
-        \vspace{10pt}
-        Timecomp & & & & \\
-        \vspace{10pt}
-        Touchable & & & & \\
-        \vspace{10pt}
-        Type & & & & \\
-        \vspace{10pt}
-        Variable & & & & \\   
+        Script & &  \\              
+       
 
         \bottomrule
     \end{tabular}
