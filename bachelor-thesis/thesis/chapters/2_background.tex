@@ -11,7 +11,7 @@ As this thesis merges known concepts from \scratch{} analysis and \ngram{}, we i
 The functionality of \scratch{} is important to understand in order to follow the main research of this thesis. The following methods and analysis is based on the programming language \scratch{} itself and \litterbox{} which is the basis of the evaluation and used its \AST{} as a guideline for the structure of the n-gram model. 
 
 \subsection{The Structure of \scratch{}}\label{subsec:scratch}
-\scratch{}\footnote{\url{https://en.scratch-wiki.info/wiki/Scratch}, last accessed August 19, 2020} is a block-based programming language designed for kids that was created by the Massachusetts Institute of Technology (MIT). With over 50 million registered users and shared projects\footnote{\url{https://scratch.mit.edu/statistics/}, last accessed August 19, 2020} it is one of the most popular tools for teaching children from a young age how to develop computational thinking skills to solve problems programmatically.
+\scratch{}\footnote{\url{https://en.scratch-wiki.info/wiki/Scratch}, last accessed August 19, 2020} is a block-based programming language designed for kids that was created by the \textit{Massachusetts Institute of Technology}\footnote{\url{https://web.mit.edu/}, last accessed September 06, 2020}. With over 50 million registered users and shared projects\footnote{\url{https://scratch.mit.edu/statistics/}, last accessed August 19, 2020} it is one of the most popular tools for teaching children from a young age how to develop computational thinking skills to solve problems programmatically.
 
 The 'drag-and-drop-programming' style that \scratch{} is utilizing allows the programmer to pick from a pallet of existing blocks and build scripts by combining these code pieces like a jigsaw puzzle.
 \textit{Blocks}\footnote{\url{https://en.scratch-wiki.info/wiki/Blocks}, last accessed August 19, 2020} are separated into different types that include \textit{hat, stack, reporter, boolean and cap}. Each data type has a specific shape that indicates their intended usage in order to avoid errors in the syntax of the code. In contrast to text-based programming languages, the \textit{blocks} help children to memorize the commands and avoid structure errors that otherwise would very likely occur in the beginning. 
@@ -23,7 +23,7 @@ Figure~\ref{fig:scratchblocks} shows the typical structure of a \scratch{} \text
 \begin{figure}[t]
     \centering
     \includegraphics[scale=0.4]{scratchblocks.png}
-    \caption[All types of scratch blocks]{\label{fig:scratchblocks} A script showing all possible scratch block types}
+    \caption[A representative \scratch\ script]{\label{fig:scratchblocks} A representative script in scratch.}
 \end{figure}
 
 For instance, the Figure~\ref{fig:script} of a \scratch{} project that is based on the band BTS\footnote{\url{https://scratch.mit.edu/projects/308718195/}, last accessed August 20, 2020} shows a \textit{script} that controls the picture of one of the band members which is shown in Figure~\ref{fig:sprite}. Once the user clicks on the profile picture of Jungkook, the 'click' event of the \textit{script} is fired and the text "Saranghae <3" is shown for 2 seconds.
@@ -106,7 +106,7 @@ In contrast to the usual rule-based bug finding techniques which use a probabili
     %
 \end{definition}
 
-Taking out tokens in a project that are not frequently used by manifesting a \hyperref[def:minimum_token_occurrence]{minimum token occurrende} is common practice for natural language processing (NLP) techniques. It reduces the chances of falsely reporting uncommon token sequences that are not bugs but just very uncommonly used. 
+Taking out tokens in a project that are not frequently used by manifesting a \hyperref[def:minimum_token_occurrence]{minimum token occurrence} is common practice for natural language processing (NLP) techniques. It reduces the chances of falsely reporting uncommon token sequences that are not bugs but just very uncommonly used. 
 
 \begin{definition}[Probability Threshold]\label{def:probability_threshold}
     %
