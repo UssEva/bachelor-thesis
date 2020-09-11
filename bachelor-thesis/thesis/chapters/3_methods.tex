@@ -31,9 +31,8 @@ In order to identify unusual block sequences in a \scratch{} project, each proje
 \label{fig:ast}
 \end{figure}
 
-For a simple \scratch{} project with only one [GreenFlag] block, the tree structure is already pretty big. This is caused by the amount of additional information \textit{Nodes} that are created by the \litterbox{} \AST{} but are not necessary or even part of the essential tokens we need for the \ngram{}. In Table~\ref{tab:excluded-metadata} is a quick overview of all \AST\-only \textit{Nodes} that are only for information purposes, whereas in Table~\ref{excluded-blocks} there are real \scratch\ blocks that exist in the \AST\ that were excluded for different reasons. These \textit{Node} are all excluded for the tokenization in order to keep the n-gram model as small as possible and increase bug detection efficiency.   
+For a simple \scratch{} project with only one [GreenFlag] block, the tree structure is already pretty big. This is caused by the amount of additional information \textit{Nodes} that are created by the \litterbox{} \AST{} but are not necessary or even part of the essential tokens we need for the \ngram{}. In Table~\ref{tab:excluded-metadata} is a quick overview of all \AST\ -only Nodes that are for information purposes, whereas in Table~\ref{tab:excluded-blocks} are real \scratch\ blocks that exist in the \AST\ that were excluded because of their only usage in \texttt{drop-down lists}. It is assumed that a programmer cannot choose falsely in a \texttt{drop-down list} and because the list itself cannot be altered, all \texttt{drop-down boxes} are seen as one token with their corresponding \scratch\ blocks. These Nodes are all excluded for the tokenization in order to keep the n-gram model as small as possible and increase bug detection efficiency.   
 
-%TODO Add examples to table!
 \begin{table}[H]
     \caption[The excluded information-based \AST\ Nodes]{\label{tab:excluded-metadata}The excluded information-based \AST\ Nodes for tokenization of \scratch\ projects.}
 
@@ -42,34 +41,85 @@ For a simple \scratch{} project with only one [GreenFlag] block, the tree struct
     	Class & Type & Example \\
     	\midrule
     	\vspace{10pt}
+    	    ActorDefinition & AbstractNode & Information storage of Actor \\
+    	    \vspace{10pt} 
+    	    ActorDefinitionList & AbstractNode & List of ActorDefinitions \\
+    	    \vspace{10pt}
+        ActorType & ASTLeaf & STAGE, SPRITE \\  
+        \vspace{10pt}
+        DeclarationStmt & Stmt & All types of attribute declarations\\
+        \vspace{10pt}
+        Metadata & ASTNode & \parbox[t]{7cm}{Additional information of the Program,\\ Sprites, Stages, Resources, Blocks} \\
+        \vspace{10pt}
+        ProcedureDefinition & AbstractNode & Definition of custom procedures \\
+        \vspace{10pt}
+        ProcedureDefinitionList & AbstractNode & List of ProcedureDefinitions \\
+        \vspace{10pt}
         Program & AbstractNode & Placeholder for whole project\\
         \vspace{10pt}
-        StrId & LocalIdentifier & Project ID \\
+        Script & AbstractNode & Event and StmtList of an actor \\  
         \vspace{10pt}
-        ActorDefinitionList & AbstractNode & List of ActorDefinitions \\
-        \vspace{10pt}   
-        ActorDefinition & AbstractNode & Information storage of Actor \\
+        ScriptList & AbstractNode & List of Scripts \\
         \vspace{10pt}
-        ActorType & ASTLeaf & STAGE, SPRITE \\  
+        SetAttributeTo & AbstractNode & Sets attributes at start of program \\
         \vspace{10pt} 
-        SetStmtList & AbstractNode & List of Attributes to set \\
+        SetStmtList & AbstractNode & List of attributes to set \\
         \vspace{10pt}
-        DeclarationStmt &  & \\
+        StmtList & AbstractNode & List of Stmts \\
         \vspace{10pt}
-        ProcedureDefinitionList & & \\
-        \vspace{10pt}
-        ProcedureDefinition & & \\
-        \vspace{10pt}
-        Metadata & &  \\
-        \vspace{10pt}
-        SetAttributeTo & &  \\
-        \vspace{10pt}
-        ScriptList & &  \\
-        \vspace{10pt}
-        Script & &  \\              
-       
+        StrId & LocalIdentifier & Project ID \\            
+    \bottomrule
+    \end{tabular}
+\end{table}
 
-        \bottomrule
+\begin{table}[H]
+    \caption[The excluded \scratch\ blocks]{\label{tab:excluded-blocks}The excluded \scratch\ blocks for tokenization.}
+
+    \begin{tabular}[t]{lll}
+    	\toprule
+    	Class & Type & Examples \\
+    	\midrule
+    	\vspace{10pt}
+    		Position & ASTNode & MousePos, RandomPos \\
+    		\vspace{10pt} 
+    		Backdrop & AbstractNode & Backdrop1, Backdrop2,... \\
+    		\vspace{10pt} 
+    		Costume & AbstractNode & Costume1, Costume2,... \\
+    		\vspace{10pt}
+    		DragMode & ASTLeaf & Not\_DRAGGABLE, DRAGGABLE \\
+    		\vspace{10pt}
+   		ElementChoice & ASTNode & Next, Prev, Random, WithExpr \\
+   		\vspace{10pt}
+    		ForwardBackwardChoice & ASTLeaf & FORWARD, BACKWARD \\
+    		\vspace{10pt}
+    		GraphicEffect & ASTLeaf & COLOR, GHOST, BRIGHTNESS,... \\
+    		\vspace{10pt}
+    		Key & AbstractNode & Spacebar, Arrow keys, Any,... \\
+    		\vspace{10pt} 
+   	 	LayerChoice & ASTLeaf & FRONT, BACK \\ 
+   	 	\vspace{10pt}
+    		Loudness & NumExpr, ASTLeaf & 100 \\
+    		\vspace{10pt}
+   		Message & AbstractNode & Message1, Message2,... \\
+   		\vspace{10pt}
+    		NumFunct & ASTNode, ASTLeaf & ABS, ACOS, ASIN, ATAN,... \\
+    		\vspace{10pt} 
+   		Rotation-Style & ASTLeaf & Don't rotate, Left-right, All around \\
+   		\vspace{10pt}
+    		Size & NumExpr, ASTLeaf & 10 \\
+    		\vspace{10pt}
+    		SoundEffect & ASTLeaf & PAN, PITCH \\
+    		\vspace{10pt}
+    		TimeComp & ASTNode, ASTLeaf & DATE, DAY\_OF\_WEEK, HOUR,... \\
+    		\vspace{10pt}
+    		Timer & NumExpr, ASTLeaf & 3 \\
+    		\vspace{10pt} 
+    		Touchable & ASTNode & \parbox[t]{7cm}{Color, MousePointer, SpriteTouchable, Edge} \\
+    		\vspace{10pt}
+    		Variable & DataExpr & My variable \\ 
+    		\vspace{10pt}
+        Volume & NumExpr, ASTLeaf & 100 \\     
+    \bottomrule
     \end{tabular}
 \end{table}
 
