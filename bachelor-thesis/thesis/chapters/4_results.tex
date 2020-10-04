@@ -2,10 +2,11 @@
 % !TeX encoding = UTF-8
 % !TeX root = ../thesis.tex
 
-\newcommand{\numlarge}{152,007}
+\newcommand{\numlarge}{75,277}
 \newcommand{\monthstart}{December 2019}
 \newcommand{\monthend}{January 2020}
 \newcommand{\parsingexcp}{?}
+\newcommand{\notfoundexcp}{?}
 \newcommand{\successfullyanalysed}{?}
 \newcommand{\creationtime}{?}
 
@@ -25,18 +26,16 @@ The main research points for this bachelor's thesis are answers to the following
 \section{Datasets}\label{sec:dataset}
 This section shows the two different datasets that were used for the bachelor's thesis, specifically, for the training of the model like it is introduced in Subsection~\ref{subsec:trainingset} and for bug detection which Subsection~\ref{subsec:bugset} focuses on.
 
-\subsection{Model Training Set}\label{subsec:trainingset}
+\subsection{Big Data Set}\label{subsec:trainingset}
 %TODO Add evaluation time, amount, gadgets,...
-In order to have a sufficient number of sequences to calculate a probability distribution from, we decided to build the \ngram{} on a large dataset. The dataset consists of \numlarge\ \scratch\ projects. From \monthstart\ to \monthend\ we downloaded the most recent projects with the \scratch\ REST API\footnote{\url{https://github.com/LLK/scratch-rest-api/wiki}, last accessed May 8, 2020}. We did not exclude remixes from the dataset. \litterbox\ could not parse \parsingexcp\ projects, thus the \ngram\ was created of \successfullyanalysed\ projects without any exceptions. The creation of the model took \creationtime\ and was conducted on machines equipped with Intel Xeon E5-2650 v2 @ 2.60 GHz CPUs with 256 GiB of RAM.
+In order to have a sufficient number of sequences to calculate a probability distribution from, we decided to build the \ngram{} on a large dataset. The dataset consists of \numlarge\ \scratch\ projects. From \monthstart\ to \monthend\ we downloaded the most recent projects with the \scratch\ REST API\footnote{\url{https://github.com/LLK/scratch-rest-api/wiki}, last accessed May 8, 2020}. We did exclude remixes from the dataset. \litterbox\ could not parse \parsingexcp\ projects, thus the \ngram\ was created of \successfullyanalysed\ projects without any exceptions. The creation of the model took \creationtime\ and was conducted on machines equipped with Intel Xeon E5-2650 v2 @ 2.60 GHz CPUs with 256 GiB of RAM.
 
-\subsection{Bug Finding Set}\label{subsec:bugset}
-The second dataset we use to evaluate the \ngram{} is a set of correct as well as defective solutions for five small coding tasks for students. Based on the task the pupils had to implement, we call these sets \textit{Monkey}, \textit{Elephant}, \textit{Cat}, \textit{Horse} and \textit{Fruit Catching} task.
-We used solutions of pupils which originate in primary programming education~\cite{katharina} for the Monkey, Elephant, Cat and Horse tasks. For the Fruit Catching task we used the same dataset as Stahlbauer et al. in their work about testing \scratch\ programs automatically~\cite{whisker}. Table~\ref{tab:big-dataset} shows the number of projects for each task. The bug detection was done in a few seconds for every set of solutions and did not throw any exceptions. All experiments with the small datasets were conducted on a Swift SF314-57 with an Intel i5 core and 8 GB RAM.
-
+\subsection{Pupil's Projects}\label{subsec:bugset}
+The second dataset we used for creating project-specific models is a set of correct as well as defective solutions of five small coding tasks for students. Based on the task the pupils had to implement, we call these sets \textit{Monkey}, \textit{Elephant}, \textit{Cat}, \textit{Horse} and \textit{Fruit Catching} task. We used solutions of pupils which originate in primary programming education~\cite{katharina} for the Monkey, Elephant, Cat and Horse tasks. For the Fruit Catching task we used the same dataset as Stahlbauer et al. in their work about testing \scratch\ programs automatically~\cite{whisker}. Table~\ref{tab:small-dataset} shows the number of projects for each task. For bug detection we chose one representative project of each task which are listed in Table~\ref{tab:buggy-projects} and analysed them with \litterbox\ and the created n-gram models. The creation of the project-specific models as well as bug detection with the pupil's projects was done in a few seconds for every set of solutions and did not throw any exceptions. All experiments with the small datasets were conducted on a Swift SF314-57 with an Intel i5 core and 8 GB RAM.
  
 \begin{table}[H]
     \centering
-    \caption[Projects evaluated in our experiments]{\label{tab:big-dataset}Projects evaluated in our experiments}
+    \caption[Projects of small dataset]{\label{tab:small-dataset}Projects of small dataset for project-specific models}
     \begin{tabular}{lr}
         \toprule
         Task & \#Projects \\
@@ -50,78 +49,74 @@ We used solutions of pupils which originate in primary programming education~\ci
     \end{tabular}
 \end{table}
 
+\begin{table}[H]
+    \centering
+    \caption[Representative projects for each task]{\label{tab:buggy-projects}Representative projects for each task used for bug detection}
+    \begin{tabular}{lrrrr}
+        \toprule
+        Task & Project & Size & \#Sprites & \#Blocks\\
+        \midrule
+        Fruit Catching & K7\_S02.sb3 & 176 KB & 3.0 & 81.0\\
+        Monkey & ID\_065\_Aufgabe-Affenjagd.sb3 & 181 KB & 3.0 & 18.0 \\
+        Elephant & ID\_118\_Aufgabe-Elefant.sb3 & 456 KB & 4.0 & 23.0 \\
+        Cat & ID\_005\_Aufgabe-Katze.sb3 & 86 KB & 2.0 & 14.0 \\
+        Horse & ID\_080\_Aufgabe-Pferd.sb3 & 6 KB & 1.0 & 14.0 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
 
 \section{RQ1: Gram Size}\label{sec:gram_size}
 %TODO Update execution and add result
-In order to find the best \textit{gram size} that increases the number of detected bugs, different n-gram models with \textit{gram sizes} ranging from 2 to 6 were built based on the large dataset from Section~\ref{sec:dataset}. After calculating the probabilities of each token sequence and ranking them based on their probabilities in descending order, the bottom 10 sequences of each list were manually examined. The \textit{gram size} that managed to find the most true bugs was chosen which in this case was the \textit{gram size} ? like it is shown in Figure~\ref{fig:bugs-gramSize}. 
+In order to find the best \textit{gram size} that increases the number of detected bugs, different n-gram models with \textit{gram sizes} ranging from 2 to 4 were built based on the large dataset from Section~\ref{sec:dataset}. After calculating the probabilities of each token sequence and ranking them based on their probabilities in descending order, the bottom 10 sequences of each list were manually examined. The \textit{gram size} that managed to find the most true bugs was chosen which in this case was the \textit{gram size} ? like it is shown in Figure~\ref{fig:bugs-gramSize}. 
 
 %TODO Add diagram: Bugs per gram size.
 
 
 \section{RQ2: Sequence Length}\label{sec:sequence_length}
 %TODO Update execution, add result
-The evaluation of the optimal sequence length for the analysis was executed by building n-gram models based on the dataset from Section~\ref{sec:dataset} with the optimal \textit{gram size} from Section~\ref{sec:gram_size} and {sequence lengths} in the range from 2 to 10. Calculating probabilities from all sequences and ranking them was followed by examining the bottom 10 sequences with low probabilities to check how many true bugs are detected. The \textit{sequence length} that helped to find the most bugs is chosen as the optimal number which is ? according to ~\ref{tab:bugs-sequenceLength}. 
+The evaluation of the optimal sequence length for the analysis was executed by building n-gram models based on the dataset from Section~\ref{sec:dataset} with the optimal \textit{gram size} from Section~\ref{sec:gram_size} and {sequence lengths} in the range from 2 to 6. Calculating probabilities from all sequences and ranking them was followed by examining the bottom 10 sequences with low probabilities to check how many true bugs are detected. The \textit{sequence length} that helped to find the most bugs is chosen as the optimal number which is ? according to ~\ref{tab:bugs-sequenceLength}. 
 
 %TODO Add diagram: Bugs per sequence length
 
 
 \section{RQ3: Comparison to Litterbox}\label{sec:litterbox}
-%TODO Find bugs with litterbox, fix gram size and sequence lengh, add results
-After setting the \textit{gram size} and \textit{sequence length} both on a fixed size based on the information that was gathered by the first two research questions, the same set of projects is used for a comparison between \litterbox{} and \ngram{} approach. The same projects from Section~\ref{sec:dataset} are analysed by \litterbox{} and the \ngram{} to test how many sequences are reported with the different methods. Table~\ref{tab:litterbox} shows the amount of reported bugs of each method. 
+%TODO Big dataset or let the project-specific model be?
+After setting the \textit{gram size} to 3 and \textit{sequence lengths} to 2 for the first analysis and 3 for the second bug detection analysis, project-specific models for each pupil task from Table~\ref{tab:small-dataset} are used for a comparison between \litterbox{} and the \ngram{} approach. The same projects from Table~\ref{tab:buggy-projects} are analysed by \litterbox{} and the \ngram{} to test how many sequences are reported after knowing the failed tests of each project through \whisker{}. The \textit{reporting size} is unlimited in this case. Table~\ref{tab:litterbox} shows the amount of reported smells or sequences of each method. 
 
-%TODO Update table: Project #LitterboxBugs #NgramBugs
 \begin{table}[H]
     \centering
     \caption[The number of reported bugs found by \litterbox{} and N-gram model]{\label{tab:litterbox}The number of reported bugs found by \litterbox{} and N-gram model}
-    \begin{tabular}{lrr}
+    \begin{tabular}{lrrr}
         \toprule
-        Task & \#LitterboxBugs & \#NgramBugs \\
+        Task & \#FailedTests & \#LitterboxSmells & \#NgramSequences \\
         \midrule
-        Fruit Catching &  &\\
-        Monkey &  &  \\
-        Elephant &  & \\
-        Cat &  &  \\
-        Horse & &  \\
+        Fruit Catching & - & 113 & 42 \\
+        Monkey & 0 & 2 & 8 \\
+        Elephant & 0 & 1 & 5 \\
+        Cat & 0 & 0 & 6 \\
+        Horse & 1 & 0 & 8 \\
         \bottomrule
     \end{tabular}
 \end{table}
  
  
 \section{RQ4: Violation Classification}\label{sec:violations}
-%TODO Find bugs and show examples, add results
-The analysis procedure is continued by analysing specifically the bugs that are reported by the \ngram{}. For each task the project with the most found bugs is manually analysed to estimate the rate of false positives. Table~\ref{tab:small-dataset} shows the projects that were chosen for further assessment as well as their further information.
+%TODO Add found bug examples, unusual case, true bug; Big model or project-specific model?
+The analysis procedure is continued by analysing specifically the bugs that are reported by the \ngram{}. For each task one project is manually analysed to estimate the rate of false positives. The \textit{probability threshold} varies from the size of the model. Table~\ref{tab:buggy-projects} shows the projects that were chosen for further assessment as well as their further information. After all by \ngram{} detected potential bugs were collected in the candidate bug set, the defective code is manually classified into the following categories: \textit{True Bugs}, \textit{Unusual Use Cases} or \textit{False Positives}. Table~\ref{tab:violations} displays the numbers for each category.
 
-\begin{table}[H]
-    \centering
-    \caption[Small Dataset with one project of each task]{\label{tab:small-dataset}Small dataset}
-    \begin{tabular}{lrrrr}
-        \toprule
-        Task & Project & Size & \#Scripts & \#Blocks \\
-        \midrule
-        Fruit Catching  & & & & \\
-        Monkey  & & & &  \\
-        Elephant  & & & & \\
-        Cat  & & & &  \\
-        Horse & & & & \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-After all by \ngram{} detected potential bugs were collected in the candidate bug set, the defective code is manually classified into the following categories: \textit{True Bugs, Refactoring Opportunities or False Positives}. Table~\ref{tab:violations} displays the numbers for each category.
-
-%TODO Update table: #ReportedBugs #TrueBugs #Refactoring #FalsePositive
 \begin{table}[H]
     \centering
     \caption[The categorization of all reported bugs]{\label{tab:violations}The categorization of all reported bugs}
-    \begin{tabular}{lrrrr}
+    \begin{tabular}{lrrrrr}
         \toprule
-        Task & \#ReportedBugs & \#TrueBugs & \#Refactoring & \#FalsePositive \\
+        Task & \parbox[t]{2.2cm}{Probability\\Threshold} & \#Reported & \#True & \#UnusualUse & \#FalsePositive \\
         \midrule
-        Fruit Catching  & & & & \\
-        Monkey  & & & &  \\
-        Elephant  & & & & \\
-        Cat  & & & &  \\
-        Horse & & & & \\
+        Fruit Catching & 0.6\% & 23 & 15 & 3 & 5 \\
+        Monkey & 1.6\% & 3 & 2 & 1 & 0 \\
+        Elephant & 1.6\% & 1 & 0 & 1 & 0 \\
+        Cat & 1.6\% & 1 & 0 & 1 & 0 \\
+        Horse & 1.6\% & 4 & 3 & 0 & 1 \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -129,21 +124,21 @@ After all by \ngram{} detected potential bugs were collected in the candidate bu
 
 \section{RQ5: Project-specific Model}\label{sec:project-specific}
 %TODO Add comparison between general and project-specific model, Add results
-Instead of one model that is based on a large dataset, we also used many smaller models that are specific to the project we want to analyse. For each pupil's task, we created a model out of the given solutions and its reference solution. This way the model has specific data that is related to the task.
+Instead of one model that is based on a large dataset, we also used many smaller models that are specific to the project we want to analyse. For each pupil's task, we created a model out of the given solutions and its reference solution. This way the model has specific data that is related to the task. Table~\ref{tab:amountbugs} shows the comparison between the amounts of found bugs by each model.
 
 %TODO Update table: #GeneralModelBugs #SpecificModelBugs 
 \begin{table}[H]
     \centering
-    \caption[Found bugs by general model vs project-specific model]{\label{tab:violations}Found bugs by general model vs project-specific model}
+    \caption[Found bugs by general model vs project-specific model]{\label{tab:amountbugs}Found bugs by general model vs project-specific model}
     \begin{tabular}{lrr}
         \toprule
         Task & \#GeneralModelBugs & \#SpecificModelBugs \\
         \midrule
-        Fruit Catching  & &  \\
-        Monkey  & & \\
-        Elephant  & &  \\
-        Cat  & &  \\
-        Horse & & \\
+        Fruit Catching  & & 23  \\
+        Monkey  & & 3\\
+        Elephant  & & 1  \\
+        Cat  & & 1 \\
+        Horse & & 4 \\
         \bottomrule
     \end{tabular}
 \end{table}
