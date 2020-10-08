@@ -2,6 +2,7 @@
 % !TeX encoding = UTF-8
 % !TeX root = ../thesis.tex
 \chapter{Background}\label{chap:background}
+%!F: Passt sehr gut :)
 
 As this thesis merges known concepts from \scratch{} analysis and \ngram{}, we introduce the concepts our work is based on in the following sections. Section~\ref{sec:analysing-scratch} introduces \scratch{} and its functionality as a block-based programming language as well as the \scratch{} analyser \litterbox{}. Section~\ref{sec:language-models} introduces the concept of a \ngram{}. It is necessary to understand the difference between n-grams and a n-gram model and the way of using it in order to obtain valuable information about \scratch{} code.
 
@@ -73,7 +74,7 @@ P(s) ={} & P(Would)\cdot P(you|Would)\cdot P(like|Would\ you) \\
 \end{equation} 
   
 \subsection{N-gram Model Configuration}\label{subsec:configuration}
-There are five key factors that affect the amount of bugs that a language model can find. These are the important \textit{configuration parameters} that need to be set in order to achieve optimal results:  
+There are five key factors that affect the number of bugs that a language model can find. These are the important \textit{configuration parameters} that need to be set in order to achieve optimal results:  
 
 \begin{definition}[Gram Size]\label{def:gram_size}
     %
@@ -89,7 +90,7 @@ The \hyperref[def:gram_size]{gram size n} is an essential part of building a \ng
     %
 \end{definition}
 
-The \hyperref[def:sequence_length]{length} of analysed sequences of a project is essential to get a detailed analysis of the project's structure. The amount of code blocks and scripts in a \scratch{} project can vary from 1 to a few hundred. By partitioning a program into smaller parts, more bugs can be obtained.
+The \hyperref[def:sequence_length]{length} of analysed sequences of a project is essential to get a detailed analysis of the project's structure. The number of code blocks and scripts in a \scratch{} project can vary from 1 to a few hundred. By partitioning a program into smaller parts, more bugs can be obtained.
 
 \begin{definition}[Reporting Size]\label{def:reporting_size}
     %
@@ -97,7 +98,7 @@ The \hyperref[def:sequence_length]{length} of analysed sequences of a project is
     %
 \end{definition}
 
-In contrast to the usual rule-based bug finding techniques which use a probability threshold to distinguish potential bugs from normal sequences, the \ngram{} detects token sequences of low absolute probabilities. The goal is to find the optimal parameter for the \hyperref[def:reporting_size]{reporting size} that separates buggy sequences from false positives. A larger amount of bugs that get reported from the found list, will definitely lead to a bigger size of found bugs but also means a higher risk of reporting sequences that are normal occurrences.
+In contrast to the usual rule-based bug finding techniques which use a probability threshold to distinguish potential bugs from normal sequences, the \ngram{} detects token sequences of low absolute probabilities. The goal is to find the optimal parameter for the \hyperref[def:reporting_size]{reporting size} that separates buggy sequences from false positives. A larger number of bugs that get reported from the found list will definitely lead to a bigger size of found bugs but also means a higher risk of reporting sequences that are normal occurrences.
 
 \begin{definition}[Minimum Token Occurrence]\label{def:minimum_token_occurrence}
     %
@@ -113,4 +114,4 @@ Taking out tokens in a project that are not frequently used by using a \hyperref
     %
 \end{definition}
 
-After the analysis of a project a number of sequences with the least calculated probabilities are getting reported as bugs. But in order to minimize the amount of false positives in the bug set, it is common practice to determine a \hyperref[def:probability_threshold]{probability threshold} that differentiates a bug from a rare occurrence of a sequence. 
+After the analysis of a project a number of sequences with the least calculated probabilities are getting reported as bugs. But in order to minimize the number of false positives in the bug set, it is common practice to determine a \hyperref[def:probability_threshold]{probability threshold} that differentiates a bug from a rare occurrence of a sequence. 

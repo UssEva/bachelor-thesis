@@ -5,37 +5,36 @@
 \newcommand{\numlarge}{75,277}
 \newcommand{\monthstart}{December 2019}
 \newcommand{\monthend}{January 2020}
-\newcommand{\parsingexcp}{?}
-\newcommand{\notfoundexcp}{?}
-\newcommand{\successfullyanalysed}{?}
-\newcommand{\creationtime}{?}
+\newcommand{\parsingexcp}{114}
+\newcommand{\successfullyanalysed}{74,914}
+\newcommand{\calculatedngrams}{138,299}
+\newcommand{\creationtime}{17 days}
 
 \chapter{Evaluation}\label{chap:evaluation}
-%TODO Unfinished chapter
+%TODO Whisker Tests for Fruit Catching?
 
 The main research points for this bachelor's thesis are answers to the following questions:
 \begin{itemize}
-\item[\textbf{RQ1}] What is the optimal gram size for building a useful model?
-\item[\textbf{RQ2}] How long should the analysed sequences be for an effective analysis process?
-\item[\textbf{RQ3}] How effective are \ngram{s} for bug detection in comparison to \litterbox{}?
-\item[\textbf{RQ4}] What kinds of violations were detected by the \ngram{}?
+\item[\textbf{RQ1}] How effective are \ngram{s} for bug detection in comparison to \litterbox{}?
+\item[\textbf{RQ2}] What kinds of violations were detected by the \ngram{}?
+\item[\textbf{RQ3}] What is the optimal gram size for building a useful model?
+\item[\textbf{RQ4}] How long should the analysed sequences be for an effective analysis process?
 \item[\textbf{RQ5}] Efficiency of general \ngram{} vs project-specific model?
 \end{itemize}
 
 
-\section{Datasets}\label{sec:dataset}
-This section shows the two different datasets that were used for the bachelor's thesis, specifically, for the training of the model like it is introduced in Subsection~\ref{subsec:trainingset} and for bug detection which Subsection~\ref{subsec:bugset} focuses on.
+\section{Data Sets}\label{sec:dataset}
+This section shows the two different data sets that were used for the bachelor's thesis, specifically, for the training of the model like it is introduced in Subsection~\ref{subsec:trainingset} and for bug detection which Subsection~\ref{subsec:bugset} focuses on.
 
 \subsection{Big Data Set}\label{subsec:trainingset}
-%TODO Add evaluation time, amount, gadgets,...
-In order to have a sufficient number of sequences to calculate a probability distribution from, we decided to build the \ngram{} on a large dataset. The dataset consists of \numlarge\ \scratch\ projects. From \monthstart\ to \monthend\ we downloaded the most recent projects with the \scratch\ REST API\footnote{\url{https://github.com/LLK/scratch-rest-api/wiki}, last accessed May 8, 2020}. We did exclude remixes from the dataset. \litterbox\ could not parse \parsingexcp\ projects, thus the \ngram\ was created of \successfullyanalysed\ projects without any exceptions. The creation of the model took \creationtime\ and was conducted on machines equipped with Intel Xeon E5-2650 v2 @ 2.60 GHz CPUs with 256 GiB of RAM.
+In order to have a sufficient number of sequences to calculate a probability distribution from, we decided to build the \ngram{} on a large data set. The dataset consists of \numlarge\ \scratch\ projects. From \monthstart\ to \monthend\ we downloaded the most recent projects with the \scratch\ REST API\footnote{\url{https://github.com/LLK/scratch-rest-api/wiki}, last accessed May 8, 2020}. We did exclude remixes from the data set. \litterbox\ could not parse \parsingexcp\ projects, thus the \ngram\ was created of \successfullyanalysed\ projects without any exceptions and consists of \calculatedngrams\ calculated n-grams. The creation of the model took \creationtime\ and was conducted on machines equipped with Intel Xeon E5-2650 v2 @ 2.60 GHz CPUs with 256 GiB of RAM.
 
 \subsection{Pupil's Projects}\label{subsec:bugset}
-The second dataset we used for creating project-specific models is a set of correct as well as defective solutions of five small coding tasks for students. Based on the task the pupils had to implement, we call these sets \textit{Monkey}, \textit{Elephant}, \textit{Cat}, \textit{Horse} and \textit{Fruit Catching} task. We used solutions of pupils which originate in primary programming education~\cite{katharina} for the Monkey, Elephant, Cat and Horse tasks. For the Fruit Catching task we used the same dataset as Stahlbauer et al. in their work about testing \scratch\ programs automatically~\cite{whisker}. Table~\ref{tab:small-dataset} shows the number of projects for each task. For bug detection we chose one representative project of each task which are listed in Table~\ref{tab:buggy-projects} and analysed them with \litterbox\ and the created n-gram models. The creation of the project-specific models as well as bug detection with the pupil's projects was done in a few seconds for every set of solutions and did not throw any exceptions. All experiments with the small datasets were conducted on a Swift SF314-57 with an Intel i5 core and 8 GB RAM.
+The second data set we used for creating project-specific models is a set of correct as well as defective solutions of five small coding tasks for students. Based on the task the pupils had to implement, we call these sets \textit{Monkey}, \textit{Elephant}, \textit{Cat}, \textit{Horse} and \textit{Fruit Catching} task. We used solutions of pupils which originate in primary programming education~\cite{katharina} for the Monkey, Elephant, Cat and Horse tasks. For the Fruit Catching task we used the same data set as Stahlbauer et al. in their work about testing \scratch\ programs automatically~\cite{whisker}. Table~\ref{tab:small-dataset} shows the number of projects for each task. For bug detection we chose one representative project of each task which are listed in Table~\ref{tab:buggy-projects} and analysed them with \litterbox\ and the created n-gram models. The creation of the project-specific models as well as bug detection with the pupil's projects was done in a few seconds for every set of solutions and did not throw any exceptions. All experiments with the small data sets were conducted on a Swift SF314-57 with an Intel i5 core and 8 GB RAM.
  
 \begin{table}[H]
     \centering
-    \caption[Projects of small dataset]{\label{tab:small-dataset}Projects of small dataset for project-specific models}
+    \caption[Projects of small data set]{\label{tab:small-dataset}Projects of small data set for project-specific models}
     \begin{tabular}{lr}
         \toprule
         Task & \#Projects \\
@@ -66,23 +65,9 @@ The second dataset we used for creating project-specific models is a set of corr
 \end{table}
 
 
-\section{RQ1: Gram Size}\label{sec:gram_size}
-%TODO Update execution and add result
-In order to find the best \textit{gram size} that increases the number of detected bugs, different n-gram models with \textit{gram sizes} ranging from 2 to 4 were built based on the large dataset from Section~\ref{sec:dataset}. After calculating the probabilities of each token sequence and ranking them based on their probabilities in descending order, the bottom 10 sequences of each list were manually examined. The \textit{gram size} that managed to find the most true bugs was chosen which in this case was the \textit{gram size} ? like it is shown in Figure~\ref{fig:bugs-gramSize}. 
-
-%TODO Add diagram: Bugs per gram size.
-
-
-\section{RQ2: Sequence Length}\label{sec:sequence_length}
-%TODO Update execution, add result
-The evaluation of the optimal sequence length for the analysis was executed by building n-gram models based on the dataset from Section~\ref{sec:dataset} with the optimal \textit{gram size} from Section~\ref{sec:gram_size} and {sequence lengths} in the range from 2 to 6. Calculating probabilities from all sequences and ranking them was followed by examining the bottom 10 sequences with low probabilities to check how many true bugs are detected. The \textit{sequence length} that helped to find the most bugs is chosen as the optimal number which is ? according to ~\ref{tab:bugs-sequenceLength}. 
-
-%TODO Add diagram: Bugs per sequence length
-
-
-\section{RQ3: Comparison to Litterbox}\label{sec:litterbox}
+\section{RQ1: Comparison to Litterbox}\label{sec:litterbox}
 %TODO Big dataset or let the project-specific model be?
-After setting the \textit{gram size} to 3 and \textit{sequence lengths} to 2 for the first analysis and 3 for the second bug detection analysis, project-specific models for each pupil task from Table~\ref{tab:small-dataset} are used for a comparison between \litterbox{} and the \ngram{} approach. The same projects from Table~\ref{tab:buggy-projects} are analysed by \litterbox{} and the \ngram{} to test how many sequences are reported after knowing the failed tests of each project through \whisker{}. The \textit{reporting size} is unlimited in this case. Table~\ref{tab:litterbox} shows the amount of reported smells or sequences of each method. 
+After setting the \textit{gram size} to 3 and \textit{sequence lengths} to 2 for the first analysis and 3 for the second bug detection analysis, project-specific models for each pupil task from Table~\ref{tab:small-dataset} are used for a comparison between \litterbox{} and the \ngram{} approach. The same projects from Table~\ref{tab:buggy-projects} are analysed by \litterbox{} and the \ngram{} to test how many sequences are reported after knowing the failed tests of each project through \whisker{}. The \textit{reporting size} is unlimited in this case. Table~\ref{tab:litterbox} shows the number of reported smells or sequences of each method. 
 
 \begin{table}[H]
     \centering
@@ -99,9 +84,9 @@ After setting the \textit{gram size} to 3 and \textit{sequence lengths} to 2 for
         \bottomrule
     \end{tabular}
 \end{table}
- 
- 
-\section{RQ4: Violation Classification}\label{sec:violations}
+
+
+\section{RQ2: Violation Classification}\label{sec:violations}
 %TODO Add found bug examples, unusual case, true bug; Big model or project-specific model?
 The analysis procedure is continued by analysing specifically the bugs that are reported by the \ngram{}. For each task one project is manually analysed to estimate the rate of false positives. The \textit{probability threshold} varies from the size of the model. Table~\ref{tab:buggy-projects} shows the projects that were chosen for further assessment as well as their further information. After all by \ngram{} detected potential bugs were collected in the candidate bug set, the defective code is manually classified into the following categories: \textit{True Bugs}, \textit{Unusual Use Cases} or \textit{False Positives}. Table~\ref{tab:violations} displays the numbers for each category.
 
@@ -121,10 +106,23 @@ The analysis procedure is continued by analysing specifically the bugs that are 
     \end{tabular}
 \end{table}
 
+\section{RQ3: Gram Size}\label{sec:gram_size}
+%TODO Update execution and add result
+In order to find the best \textit{gram size} that increases the number of detected bugs, different n-gram models with \textit{gram sizes} ranging from 2 to 4 were built based on the large data set from Section~\ref{sec:dataset}. After calculating the probabilities of each token sequence and ranking them based on their probabilities in descending order, the bottom 10 sequences of each list were manually examined. The \textit{gram size} that managed to find the most true bugs was chosen which in this case was the \textit{gram size} ? like it is shown in Figure~\ref{fig:bugs-gramSize}. 
+
+%TODO Add diagram: Bugs per gram size.
+ 
+ 
+\section{RQ4: Sequence Length}\label{sec:sequence_length}
+%TODO Update execution, add result
+The evaluation of the optimal sequence length for the analysis was executed by building n-gram models based on the data set from Section~\ref{sec:dataset} with the optimal \textit{gram size} from Section~\ref{sec:gram_size} and {sequence lengths} in the range from 2 to 6. Calculating probabilities from all sequences and ranking them was followed by examining the bottom 10 sequences with low probabilities to check how many true bugs are detected. The \textit{sequence length} that helped to find the most bugs is chosen as the optimal number which is ? according to Figure~\ref{tab:bugs-sequenceLength}. 
+
+%TODO Add diagram: Bugs per sequence length
+
 
 \section{RQ5: Project-specific Model}\label{sec:project-specific}
 %TODO Add comparison between general and project-specific model, Add results
-Instead of one model that is based on a large dataset, we also used many smaller models that are specific to the project we want to analyse. For each pupil's task, we created a model out of the given solutions and its reference solution. This way the model has specific data that is related to the task. Table~\ref{tab:amountbugs} shows the comparison between the amounts of found bugs by each model.
+Instead of one model that is based on a large data set, we also used many smaller models that are specific to the project we want to analyse. For each pupil's task, we created a model out of the given solutions and its reference solution. This way the model has specific data that is related to the task. Table~\ref{tab:amountbugs} shows the comparison between the amounts of found bugs by each model.
 
 %TODO Update table: #GeneralModelBugs #SpecificModelBugs 
 \begin{table}[H]
@@ -142,3 +140,12 @@ Instead of one model that is based on a large dataset, we also used many smaller
         \bottomrule
     \end{tabular}
 \end{table}
+
+\section{Threats to Validity}\label{sec:threats-to-validity}
+There is no guarantee that this bachelor's thesis is free of faults or miscalculations. Here are a few points that should be addressed about the here described and executed research as well as evaluation of the \ngram{} on \scratch{} code.
+
+\paragraph{Implementation of N-gram Model.}
+To compare the results of \litterbox{} with the n-gram model approach, we implemented the n-gram language model as close as possible to the information given from the \bugram{}~\cite{bugram} paper and based on the \AST{} that is created by \litterbox{} out of \scratch{} projects in JSON format. For our implementation, we have tried our best to tune the configuration parameters to obtain the best results. Our comparison is fair because both \litterbox{} as well as \ngram{} are evaluated on the same projects.
+
+\paragraph{Bugs are manually verified.}
+Following the \bugram{}~\cite{bugram} paper, reported bugs were assessed manually in order to approve and classify all low probability token sequences and distinguish between, i.e., true bugs, refactoring opportunities and false positives. Since we are not the original programmers of the analysed projects that are featured in this bachelor's thesis, the examination of the code is not objective. But because of common practice, it is an acceptable approach for the assessment of the given code.
