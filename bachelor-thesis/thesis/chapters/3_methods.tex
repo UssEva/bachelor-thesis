@@ -2,7 +2,6 @@
 % !TeX encoding = UTF-8
 % !TeX root = ../thesis.tex
 \chapter{N-gram Bug Detection in \scratch{}}\label{chap:methods}
-% !F: Example would be helpful in 3.1
 
 \begin{figure}[hbtp]
 \centering
@@ -14,24 +13,12 @@
 Figure \ref{fig:overview} visualises the \ngram{} building process which is explained in this chapter in more detail. In Section~\ref{sec:tokenization} the tokenization process is described with the way the \scratch{} project is parsed and converted into tokens. The next step is to use the created tokens to build the \ngram{} like it is shown in Section~\ref{sec:model}. Finally, bugs can be detected with the help of the calculated model according to Section~\ref{sec:detection}.
 
 \section{Tokenization of \scratch{} Code}\label{sec:tokenization}
-%TODO !F: Scratchblock -> Token sequence (Example)
-In order to build a model, we need to tokenize the \scratch{} project into suitable pieces:
 
 \begin{definition}[Token]\label{def:token}
     %
     ``A token is a single fragment of \scratch{} code that is used to partition code into smaller pieces in order to obtain information about its syntax on a specific granularity level.''
     %
 \end{definition}
-
-%TODO Tokenization example
-
-\begin{figure}[t]
-    \centering
-    \includegraphics[scale=0.4]{tokenization.png}
-    \caption[Tokenization example]{\label{fig:tokenization} Tokenization example}
-\end{figure}
-
-In order to identify unusual block sequences in a \scratch{} project, each project should be represented in the same form and structure. To visualise a \scratch{} project like it is shown in Figure~\ref{fig:ast}, the tokenization process is based on the abstract syntax tree (\AST{}) structure of \litterbox{}. 
 
 \begin{figure}[hbtp]
 \centering
@@ -40,7 +27,19 @@ In order to identify unusual block sequences in a \scratch{} project, each proje
 \label{fig:ast}
 \end{figure}
 
-For a simple \scratch{} project with only one [GreenFlag] block, the tree structure is already pretty big. This is caused by the number of additional information nodes that are created by the \litterbox{} \AST{} but are not necessary or even part of the essential tokens that are needed for a \ngram{}. In Table~\ref{tab:excluded-metadata} is a quick overview of all \AST{-only} nodes that are for information purposes, whereas in Table~\ref{tab:excluded-blocks} are real \scratch\ blocks that exist in the \AST\ that were excluded because of their only usage in \textit{drop-down lists}. It is assumed that a programmer cannot choose falsely in a \textit{drop-down list} and because the list itself cannot be altered, all \textit{drop-down boxes} are seen as one token with their corresponding \scratch\ blocks. These nodes are all excluded for the tokenization in order to keep the n-gram model as small as possible and increase bug detection efficiency.   
+In order to identify unusual block sequences in a \scratch{} project, each project should be represented in the same form and structure. To visualise a \scratch{} project like it is shown in Figure~\ref{fig:ast}, the tokenization process is based on the abstract syntax tree (\AST{}) structure of \litterbox{}. 
+
+For a simple \scratch{} project with only one [GreenFlag] block, the tree structure is already pretty big. This is caused by the number of additional information nodes that are created by the \litterbox{} \AST{} but are not necessary or even part of the essential tokens that are needed for a \ngram{}. In Table~\ref{tab:excluded-metadata} is a quick overview of all \AST{-only} nodes that are for information purposes, whereas in Table~\ref{tab:excluded-blocks} are real \scratch\ blocks that exist in the \AST\ that were excluded because of their only usage in \textit{drop-down lists}. It is assumed that a programmer cannot choose falsely in a \textit{drop-down list} and because the list itself cannot be altered, all \textit{drop-down boxes} are seen as one token with their corresponding \scratch\ blocks. These nodes are all excluded for the tokenization in order to keep the n-gram model as small as possible and increase bug detection efficiency.  
+
+\begin{figure}%
+    \centering
+    \subfloat[The script to tokenize]{{\includegraphics[width=7cm]{tokenization.png}\label{fig:tokenScript} }}%
+    \qquad
+    \subfloat[The tokens of the script]{{\includegraphics[width=7cm]{tokens.png}\label{fig:tokens} }}%
+    \caption[Tokenization of a \scratch\ script]{\label{fig:tokenization}Tokenization of a \scratch\ script.}%
+\end{figure}
+
+As an example to show how a tokenized \scratch\ script looks like in the \tokenizer\ program, Figure~\ref{fig:tokenization} demonstrates how the partitioning into tokens works. While Subfigure~\ref{fig:tokenScript} visualizes a solution script that was created for the cat task, the screenshot in Subfigure~\ref{fig:tokens} is a picture of the calculated tokens which do not always equal the original \scratch\ blocks because of its foundation in the \litterbox\ \AST{}. 
 
 \begin{table}[H]
     \caption[The excluded information-based \AST\ nodes]{\label{tab:excluded-metadata}The excluded information-based \AST\ nodes for tokenization of \scratch\ projects.}
@@ -132,6 +131,7 @@ For a simple \scratch{} project with only one [GreenFlag] block, the tree struct
     \end{tabular}
 \end{table}
 
+
 \section{N-gram Model Building in \scratch{}}\label{sec:model}
 In the following sections the focus is on the building process of the \ngram{}, specifically in \scratch{}. Subsection~\ref{subsec:n-grams} goes in detail on how to calculate the probabilities of the found token sequences and add them to the growing model. The method of \textit{Smoothing} is then explained in Subsection~\ref{subsec:smoothing} as well as its importance in bug detection.
 
@@ -148,7 +148,7 @@ For example, given the sequence [GreenFlag, Show, Hide] that is shown in Figure~
     \caption[\scratch{} block sequences]{\label{fig:sequences}\scratch{} block sequences}%
 \end{figure}
 
-If Figure~\ref{fig:sequence} would be the sequence we want to calculate the probability of, the estimation based on the \hyperref[def:markov_chain]{Markov chain} is executed by solving the Equation~\ref{eq:scratch-prob}. We are setting the \hyperref[def:gram size]{gram size} to 3 in this example. All internal probabilities are added by consulting the existing model and searching for the already calculated estimations. Therefore, the token sequence [GreenFlag, Show, Hide] can be calculated based on internal probabilities of its existing subsequences.
+If Figure~\ref{fig:sequence} would be the sequence we want to calculate the probability of, the estimation based on the \hyperref[def:markov_chain]{\textit{Markov chain}} is executed by solving the Equation~\ref{eq:scratch-prob}. We are setting the \hyperref[def:gram size]{gram size} to 3 in this example. All internal probabilities are added by consulting the existing model and searching for the already calculated estimations. Therefore, the token sequence [GreenFlag, Show, Hide] can be calculated based on internal probabilities of its existing subsequences.
 
 \begin{equation} \label{eq:scratch-prob}
 \begin{aligned}
@@ -178,16 +178,17 @@ P_{Laplace}([GreenFlag]) ={} \frac{c + 1}{N + D}
 The specific algorithm to find bugs in \scratch{} is implemented the following way. At first, the probabilities of all sequences of the analysed project have to be calculated with help of the model like it is described in Subsection~\ref{subsec:n-grams}. After that, the sequences are ranked based on their probability and only the ones with the lowest probability get reported as potential bugs. In the next Subsection~\ref{subsec:configurations} all important parameters are set to ensure the optimal model analysis results. In Subsection~\ref{subsec:false_bugs} we found a method to minimize the number of false positives in the reported bug set.
 
 \subsection{Configurations}\label{subsec:configurations}
+%TODO Update
 For the \scratch{} model implementation we added five parameters that have to be set accordingly in order to achieve the best evaluation results that are discussed later in Chapter~\ref{chap:evaluation}.
 
 \paragraph{Gram Size.}
-For probability calculations a \hyperref[def:markov_chain]{Markov chain} is used to get the conditional probability of a sequence using its n - 1 token predecessors as context information. In this work, n-gram models with a gram size between 2 to 4 are used in order to find the optimal n for bug detection in \scratch{} projects (Section \ref{sec:gram_size}). 
+For probability calculations a \hyperref[def:markov_chain]{\textit{Markov chain}} is used to get the conditional probability of a sequence using its n - 1 token predecessors as context information. In this work, n-gram models with a gram size of 3 is used for bug detection in \scratch{} projects. 
 \paragraph{Sequence Length.}
-In the same way we used a large data set to obtain information about the best \hyperref[def:gram_size]{gram size n}, we also analysed which length of a token sequence could be the optimal size for a good model. Lengths from 2 to 6 were used to compare the different results of the n-gram bug detection. Finding the right length of a token sequence is evaluated in a more detailed way in Section \ref{sec:sequence_length}.
+In order to analyse \scratch\ projects on a rather small granularity level, we utilized sequence lengths of 2 and 3 in our implementation. Together with the gram size of 3, these sequence lengths are effective in partitioning the \scratch\ programs into pieces that give back useful probabilities. The usage of two different sequence lengths also ensures that the reported bugs are at the bottom of at least two analysing n-gram models. This method reduces the number of false positives that would otherwise occur in more frequently.
 \paragraph{Reporting Size.}
-In this implementation the reporting size for the big data set model from Subsection~\ref{subsec:trainingset} is fixed at 25 reports per analysis, whereas we did not limit the reporting size for the small data set that  is further introduced in Subsection~\ref{subsec:bugset}. One reason for this decision was that if the reporting size is chosen too big, the risk of false positives is also increased. Furthermore, the number of reported bugs is very small in the case of the second set because the projects as well as the model itself are not very big. If we would have restricted the number of reported bugs even more, there would not be enough output created to analyse.  
+We did not limit the reporting size for the small data set that is further introduced in Subsection~\ref{subsec:bugset}. One reason for this decision was that if the reporting size is chosen too big, the risk of false positives is also increased. Furthermore, the number of reported bugs is very small in the case of the data set because the projects as well as the model itself are not very big. If we would have restricted the number of reported bugs even more, there would not be enough output created to analyse.  
 \paragraph{Minimum Token Occurrence.}
-In this bachelor's thesis \ngram{} which is only for \scratch{} analysis purposes the minimum token occurrence is chosen as one. Because of the size difference between usual Java projects compared to normal \scratch{} projects, it would not make sense to filter out any tokens. \scratch{} programmers do not have as much freedom in their implementation because of the restriction through a block-based language and usually choose a different purpose for their programs than text-based programming languages would, which leads to much smaller projects with fewer usages of specific tokens. So, the minimum token occurrence parameter would only make it harder to find low probability sequences in projects which is why we decided not to raise this threshold for the analysis.
+In this bachelor's thesis \ngram{}, which is only for \scratch{} analysis purposes, the minimum token occurrence is chosen as one. Because of the size difference between usual Java projects compared to normal \scratch{} projects, it would not make sense to filter out any tokens. \scratch{} programmers do not have as much freedom in their implementation because of the restriction through a block-based language and usually choose a different purpose for their programs than text-based programming languages would, which leads to much smaller projects with fewer usages of specific tokens. So, the minimum token occurrence parameter would only make it harder to find low probability sequences in projects which is why we decided not to raise this threshold for the analysis.
 \paragraph{Probability Threshold.}
 If a sequence in the report has a probability that is higher than the given threshold, it probably is a normal token sequence that just happens to have a lower probability than the rest of the project's blocks. In this implementation, the threshold is fixed at 0.05 for the big data set of Subsection~\ref{subsec:trainingset} and at 0.6\% or 1.6\% for the pupils' projects of Subsection~\ref{subsec:bugset}. The reason is again the size difference that would minimize the analysis output even more, if this restriction would be too low for the small project set.
 

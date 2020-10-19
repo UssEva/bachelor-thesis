@@ -50,7 +50,7 @@ For instance, the Figure~\ref{fig:script} of an example \scratch{} project\footn
 Statistical language models, in its essence, are the type of models that assign probabilities to the sequences of words. The \ngram{} is the simplest model that assigns probabilities to sentences and sequences of words. You can think of an n-gram as the sequence of N words. A 2-gram or bigram is a two-word sequence of words like 'please read', 'read very', or 'very carefully', and a 3-gram or trigram is a three-word sequence of words like 'please read very', or 'read very carefully'. 
 
 \subsection{Probability Calculation of N-grams}\label{subsec:ngram}
-\ngram{s} usually consist of sentences \textit{s} of words \textit{w} that are all based on a specific dictionary {D}. Using \hyperref[def:markov_chain]{Markov chains} the language model calculates a  probabilistic distribution of all possible sequences that can occur in the language based on \textit{D}.
+\ngram{s} usually consist of sentences \textit{s} of words \textit{w} that are all based on a specific dictionary {D}. Using \hyperref[def:markov_chain]{\textit{Markov chains}} the language model calculates a  probabilistic distribution of all possible sequences that can occur in the language based on \textit{D}.
 
 \begin{definition}[Markov chain]\label{def:markov_chain}
     %
@@ -78,11 +78,11 @@ There are five key factors that affect the number of bugs that a language model 
 
 \begin{definition}[Gram Size]\label{def:gram_size}
     %
-    ``The size of a n-gram model. Different gram sizes enable the model to use different internal probabilities to calculate the probabilities of \hyperref[def:token]{token} sequences.''~\cite{bugram}
+    ``The size of a n-gram model. Different gram sizes enable the model to use different internal probabilities to calculate the probabilities of \hyperref[def:token]{\textit{token}} sequences.''~\cite{bugram}
     %
 \end{definition}
 
-The \hyperref[def:gram_size]{gram size n} is an essential part of building a \ngram{} and calculating the probabilities of a token sequence by utilizing n-1 predecessors. Existing studies found that 3 to 6-gram models gave the best results, although the optimal \textit{gram size} for bug detection is still unknown. To explore this question more, Section \ref{sec:gram_size} focuses on analysing the effects of different gram sizes in the \scratch{} bug detection as one of the research questions of this bachelor's thesis.
+The \hyperref[def:gram_size]{\textit{gram size}} n is an essential part of building a \ngram{} and calculating the probabilities of a token sequence by utilizing n-1 predecessors. Existing studies found that 3 to 6-gram models gave the best results, although the optimal \textit{gram size} for bug detection is still unknown. To explore this question more, Section \ref{sec:gram_size} focuses on analysing the effects of different gram sizes in the \scratch{} bug detection as one of the research questions of this bachelor's thesis.
 
 \begin{definition}[Sequence Length]\label{def:sequence_length}
     %
