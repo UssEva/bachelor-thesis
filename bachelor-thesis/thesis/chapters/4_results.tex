@@ -66,7 +66,7 @@ The second data set we used for creating project-specific models is a set of cor
 
 
 \section{RQ1: Comparison to Litterbox}\label{sec:litterbox}
-After setting the \textit{gram size} to 3 and \textit{sequence lengths} to 2 for the first analysis and 3 for the second bug detection analysis, project-specific models for each pupil task from Table~\ref{tab:small-dataset} are used for a comparison between \litterbox{} and the \ngram{} approach. The same projects from Table~\ref{tab:buggy-projects} are analysed by \litterbox{} and the \ngram{} to test how many sequences are reported after knowing the failed tests of each project through \whisker{}. The \textit{reporting size} is unlimited in this case. Table~\ref{tab:litterbox} shows the number of reported smells or sequences of each method. 
+After setting the \hyperref[def:gram_size]{\textit{gram size}} to 3 and \hyperref[def:sequence_length]{\textit{sequence lengths}} to 2 for the first analysis and 3 for the second bug detection analysis, project-specific models for each pupil task from Table~\ref{tab:small-dataset} are used for a comparison between \litterbox{} and the \ngram{} approach. The same projects from Table~\ref{tab:buggy-projects} are analysed by \litterbox{} and the \ngram{} to test how many sequences are reported after knowing the failed tests of each project through \whisker{}. The \hyperref[def:reporting_size]{\textit{reporting size}} is unlimited in this case. Table~\ref{tab:litterbox} shows the number of reported smells or sequences of each method. 
 
 \begin{table}[H]
     \centering
@@ -87,7 +87,7 @@ After setting the \textit{gram size} to 3 and \textit{sequence lengths} to 2 for
 The analysis shows that even though in some cases \litterbox\ did not find smells and \whisker\ tests all passed, the \ngram\ reported sequences that pointed out potential bugs or unusual use cases. This shows that the \ngram\ has a different range of violations it can detect in \scratch\ projects.
 
 \section{RQ2: Violation Classification}\label{sec:violations}
-The analysis procedure is continued by analysing specifically the bugs that are reported by the \ngram{}. For each task one project is manually analysed to estimate the rate of false positives. The \textit{probability threshold} varies from the size of the model. Table~\ref{tab:buggy-projects} shows the projects that were chosen for further assessment as well as their further information. After all by \ngram{} detected potential bugs were collected in the candidate bug set, the defective code is manually classified into the following categories: \textit{True Bugs}, \textit{Unusual Use Cases} or \textit{False Positives}. Table~\ref{tab:violations} displays the numbers for each category.
+The analysis procedure is continued by analysing specifically the bugs that are reported by the \ngram{}. For each task one project is manually analysed to estimate the rate of false positives. The \hyperref[def:minimum_token_occurrence]{\textit{minimum token occurrence}} varies from the size of the model. Table~\ref{tab:buggy-projects} shows the projects that were chosen for further assessment as well as their further information. After all by \ngram{} detected potential bugs were collected in the candidate bug set, the defective code is manually classified into the following categories: \textit{True Bugs}, \textit{Unusual Use Cases} or \textit{False Positives}. Table~\ref{tab:violations} displays the numbers for each category.
 
 \begin{table}[H]
     \centering
@@ -105,25 +105,32 @@ The analysis procedure is continued by analysing specifically the bugs that are 
     \end{tabular}
 \end{table}
 
-If a sequence is an unusual use case, it will not be detected by \litterbox\ because it is not a code smell. Most of the time the unusual use is a consequence of an extension of the original task and therefore not part of the usual used sequences that are needed for a project to pass the test.
+If a sequence is an unusual use case, it will not be detected by \litterbox\ because it is not a code smell. Most of the time a unusual use is a consequence of an extension of the original task and therefore not part of the usual used sequences that are needed for a project to pass the test.
 
 When we compare the code smells that \litterbox\ is able to find with the bugs that can be detected by the \ngram\, then we see that the \ngram\ is not able to detect long script or unused variable in the \scratch\ code. But the \ngram\ is also capable of finding dead code, empty scripts as well as empty bodies in if-else statements. 
  
 
 \section{RQ3: Open Solutions}\label{sec:gram_size}
-For a wider perspective on the usage of the \ngram\ approach to bug detection we selected a set of the pupil's solutions where they could try out all the things they had newly learned. This means that there is no unique solution for these tasks, just open interpretations of simple projects. The classification into unusual use cases is therefore not possible without an available reference solution. The project-specific model, we created out of the solutions, reported the following bugs displayed in Table~\ref{tab:open} for a set of example projects of the data set. 
+For a wider perspective on the usage of the \ngram\ approach to bug detection we selected a set of the pupil's solutions where they could try out all the things they had newly learned. This means that there is no unique solution for these tasks, just open interpretations of simple projects. Therefore there is no method to determine if a reported sequence is an unusual use case. The project-specific model, we created out of the solutions, reported the following bugs displayed in Table~\ref{tab:open} for a set of example projects of the data set. In this analysis the \hyperref[def:minimum_token_occurrence]{\textit{minimum token occurrence}} is set to 0.5\%. 
 
 \begin{table}[H]
     \centering
     \caption[Reported bugs of open projects]{\label{tab:open}Reported bugs of open projects}
-    \begin{tabular}{lrrrrr}
+    \begin{tabular}{lrrr}
         \toprule
-        Task & \parbox[t]{2.2cm}{Probability\\Threshold} & \#Reported & \#True & \#FalsePositive \\
+        Task & \#Reported & \#True & \#FalsePositive \\
         \midrule
-        m043.sb3 & 0.5 & 4 & 3 & 1 \\        
+        m043.sb3 & 4 & 3 & 1 \\   
+        m052-Zauberei.sb3 & 2 & 1 & 1 \\ 
+        m067-Apfelsuche.sb3 & 1 & 0 & 1 \\
+        m074-Sternenjaeger.sb3 & 1 & 0 & 1 \\
+        m091 2.sb3 & 4 & 0 & 4 \\
+        w002-Weltraumangriff.sb3 & 2 & 2 & 0 \\            
         \bottomrule
     \end{tabular}
 \end{table}
+
+The frequent occurrence of false positives could be a consequence of the missing unusual use case categorisation. A lot of sequences just were not used as often by the novice programmers and when they appear one time their probability is consequently pretty low. 
 
 
 \section{RQ4: General vs Project-specific Model}\label{sec:project-specific}
@@ -136,16 +143,16 @@ One reason are negative possibilities that appeared in the reports. The origin o
 \begin{table}[H]
     \centering
     \caption[General vs project-specific model]{\label{tab:versus}General vs project-specific model}
-    \begin{tabular}{lrrrrr}
+    \begin{tabular}{lrr}
         \toprule
         Sequence & General & Project-specific \\
         \midrule
-        [GreenFlag, RepeatForeverStmt] & -163.7176695714846 & 0.0052368762629570725 \\
-        [Touching, SayForSecs] & -93.4693467460925 & 0.0025830339970531286 \\
-        [PointTowards, MoveSteps] & -56.557244922395064 & 3.548409418312439E-4 \\
-        [NumberLiteral, IfThenStmt] & 72.48561394813275 & 0.0033964044507544403 \\
-        [NumberLiteral] & 72.48561394813275 & 2.3721578534715566 \\
-        [StringLiteral, NumberLiteral] & -46.75499727794927 & 0.0027517806291449814 \\
+        GreenFlag, RepeatForeverStmt & -163.7176695714846 & 0.0052368762629570725 \\
+        Touching, SayForSecs & -93.4693467460925 & 0.0025830339970531286 \\
+        PointTowards, MoveSteps & -56.557244922395064 & 3.548409418312439E-4 \\
+        NumberLiteral, IfThenStmt & 72.48561394813275 & 0.0033964044507544403 \\
+        NumberLiteral & 72.48561394813275 & 2.3721578534715566 \\
+        StringLiteral, NumberLiteral & -46.75499727794927 & 0.0027517806291449814 \\
         \bottomrule
     \end{tabular}
 \end{table}
@@ -158,4 +165,4 @@ There is no guarantee that this bachelor's thesis is free of faults or miscalcul
 To compare the results of \litterbox{} with the n-gram model approach, we implemented the n-gram language model as close as possible to the information given from the \bugram{}~\cite{bugram} paper and based on the \AST{} that is created by \litterbox{} out of \scratch{} projects in JSON format. For our implementation, we have tried our best to tune the configuration parameters to obtain the best results. Our comparison is fair because both \litterbox{} as well as \ngram{} are evaluated on the same projects.
 
 \paragraph{Bugs are manually verified.}
-Following the \bugram{}~\cite{bugram} paper, reported bugs were assessed manually in order to approve and classify all low probability token sequences and distinguish between, i.e., true bugs, refactoring opportunities and false positives. Since we are not the original programmers of the analysed projects that are featured in this bachelor's thesis, the examination of the code is not objective. But because of common practice, it is an acceptable approach for the assessment of the given code.
+Following the \bugram{}~\cite{bugram} paper, reported bugs were assessed manually in order to approve and classify all low probability \hyperref[def:token]{\textit{token}} sequences and distinguish between, i.e., true bugs, refactoring opportunities and false positives. Since we are not the original programmers of the analysed projects that are featured in this bachelor's thesis, the examination of the code is not objective. But because of common practice, it is an acceptable approach for the assessment of the given code.

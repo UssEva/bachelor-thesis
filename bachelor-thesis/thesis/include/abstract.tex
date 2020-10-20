@@ -6,7 +6,7 @@
 
 In contrast to rule-based methods which often rely on special patterns that appear rather frequently in source code, and detect violations based on the inferred rules, the \ngram{} is another approach to bug detection. In this bachelor's thesis, this new way of software bug detection is proposed in order to improve software reliability and the quality of \scratch{} programs.
 
-After the tokenization, token sequences are assessed with their calculated probabilities which are based on the existing model. If a detected token sequence has a rather low probability, it gets reported as a potential bug because the assumption is that these kinds of sequential tokens are unusual and should be highlighted to the programmer as a bad practice or programming mistake that affects the program.
+After the tokenization, \hyperref[def:token]{\textit{token}} sequences are assessed with their calculated probabilities which are based on the existing model. If a detected \hyperref[def:token]{\textit{token}} sequence has a rather low probability, it gets reported as a potential bug because the assumption is that these kinds of sequential tokens are unusual and should be highlighted to the programmer as a bad practice or programming mistake that affects the program.
 
 The \ngram{} gets evaluated in the following ways. First, \scratch{} projects are analysed to find bugs, code smells or unusual use cases. Then the result is compared to the reported bugs by \litterbox{} which assesses the same projects. The \ngram\ reported sequences for each task although \whisker\ tests may have passed and no code smells were found by \litterbox{} which shows the different kind of violations n-gram models are able to detect.
 
