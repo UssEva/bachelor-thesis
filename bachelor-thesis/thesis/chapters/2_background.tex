@@ -2,13 +2,12 @@
 % !TeX encoding = UTF-8
 % !TeX root = ../thesis.tex
 \chapter{Background}\label{chap:background}
-%!F: Passt sehr gut :)
 
-As this thesis merges known concepts from \scratch{} analysis and \ngram{}, we introduce the concepts our work is based on in the following sections. Section~\ref{sec:analysing-scratch} introduces \scratch{} and its functionality as a block-based programming language as well as the \scratch{} analyser \litterbox{}. Section~\ref{sec:language-models} introduces the concept of a \ngram{}. It is necessary to understand the difference between n-grams and a n-gram model and the way of using it in order to obtain valuable information about \scratch{} code.
+As this thesis merges known concepts from \scratch{} analysis and \ngram{}, we introduce the concepts our work is based on in the following sections. Section~\ref{sec:analysing-scratch} introduces \scratch{} and its functionality as a block-based programming language as well as the \scratch{} analyser \litterbox{}. Section~\ref{sec:language-models} introduces the concept of a \ngram{}. It is necessary to understand the difference between n-grams and an n-gram model and the way of using it in order to obtain valuable information about \scratch{} code.
 
 
 \section{Analysing \scratch{} Programs}\label{sec:analysing-scratch}
-The functionality of \scratch{} is important to understand in order to follow the main research of this thesis. The following methods and analysis is based on the programming language \scratch{} and \litterbox{} which is the basis of the evaluation and used its \AST{} as a guideline for the structure of the n-gram model. 
+The functionality of \scratch{} is important to understand in order to follow the main research of this thesis. The following methods and analysis are based on the programming language \scratch{} and \litterbox{} which is the basis of the evaluation and used its \AST{} as a guideline for the structure of the n-gram model. 
 
 \subsection{The Structure of \scratch{}}\label{subsec:scratch}
 \scratch{}\footnote{\url{https://en.scratch-wiki.info/wiki/Scratch}, last accessed August 19, 2020} is a block-based programming language designed for kids that was created by the \textit{Massachusetts Institute of Technology}\footnote{\url{https://web.mit.edu/}, last accessed September 06, 2020}. With over 50 million registered users and shared projects\footnote{\url{https://scratch.mit.edu/statistics/}, last accessed August 19, 2020} it is one of the most popular tools for teaching children from a young age how to develop computational thinking skills to solve problems programmatically.
@@ -20,21 +19,21 @@ After combining different \textit{blocks}, \textit{scripts}\footnote{\url{https:
 
 Figure~\ref{fig:scratchblocks} shows the typical structure of a \scratch{} \textit{script} that uses most of the before mentioned data types. Starting the \textit{script} with a \textit{hat} and ending with a \textit{cap} block, there are also 10 different categories that each block is assigned to: \textit{Motion, Looks, Sound, Event, Control, Sensing, Operators, Variables, List,} and \textit{My Blocks}. 
 
-\begin{figure}[t]
+\begin{figure}[hbtp]
     \centering
     \includegraphics[scale=0.4]{scratchblocks.png}
     \caption[A representative \scratch\ script]{\label{fig:scratchblocks} A representative script in \scratch{}.}
 \end{figure}
 
-For instance, the Figure~\ref{fig:script} of an example \scratch{} project\footnote{\url{https://scratch.mit.edu/projects/308718195/}, last accessed August 20, 2020} shows a \textit{script} that controls the picture of Jungkook, a member of the band BTS, which is shown in Figure~\ref{fig:sprite}. Once the user clicks on the picture of Jungkook, the 'click' event of the \textit{script} is executed and the text "Saranghae <3" is shown for 2 seconds.
+For instance, Figure~\ref{fig:script} of an example \scratch{} project\footnote{\url{https://scratch.mit.edu/projects/308718195/}, last accessed August 20, 2020} shows a \textit{script} that controls the picture of Jungkook, a member of the band BTS, which is shown in Figure~\ref{fig:sprite}. Once the user clicks on the picture of Jungkook, the 'click' event of the \textit{script} is executed and the text "Saranghae <3" is shown for 2 seconds.
 
-\begin{figure}[t]
+\begin{figure}[hbtp]
     \centering
     \includegraphics[scale=0.4]{jungkook_script.png}
     \caption[Script code controlling a sprite]{\label{fig:script} A \scratch\ script controlling a corresponding sprite}
 \end{figure}
 
-\begin{figure}%
+\begin{figure}[hbtp]%
     \centering
     \subfloat[Sprite in front of a background]{{\includegraphics[width=7cm]{jungkook_stage.png} }}%
     \qquad
@@ -47,10 +46,10 @@ For instance, the Figure~\ref{fig:script} of an example \scratch{} project\footn
 
 
 \section{N-gram Language Model}\label{sec:language-models}
-Statistical language models, in its essence, are the type of models that assign probabilities to the sequences of words. The \ngram{} is the simplest model that assigns probabilities to sentences and sequences of words. You can think of an n-gram as the sequence of N words. A 2-gram or bigram is a two-word sequence of words like 'please read', 'read very', or 'very carefully', and a 3-gram or trigram is a three-word sequence of words like 'please read very', or 'read very carefully'. 
+Statistical language models, in its essence, are the type of models that assign probabilities to sequences of words. The \ngram{} is the simplest model that assigns probabilities to sentences and sequences of words. You can think of an n-gram as the sequence of N words. A 2-gram or bigram is a two-word sequence of words like 'please read', 'read very', or 'very carefully', and a 3-gram or trigram is a three-word sequence of words like 'please read very', or 'read very carefully'. 
 
 \subsection{Probability Calculation of N-grams}\label{subsec:ngram}
-\ngram{s} usually consist of sentences \textit{s} of words \textit{w} that are all based on a specific dictionary {D}. Using \hyperref[def:markov_chain]{\textit{Markov chains}} the language model calculates a  probabilistic distribution of all possible sequences that can occur in the language based on \textit{D}.
+\ngram{s} usually consist of sentences \textit{s} of words \textit{w} that are all based on a specific dictionary \textit{D}. Using \hyperref[def:markov_chain]{\textit{Markov chains}} the language model calculates a probabilistic distribution of all possible sequences that can occur in the language based on \textit{D}.
 
 \begin{definition}[Markov chain]\label{def:markov_chain}
     %
@@ -78,11 +77,11 @@ There are five key factors that affect the number of bugs that a language model 
 
 \begin{definition}[Gram Size]\label{def:gram_size}
     %
-    ``The size of a n-gram model. Different gram sizes enable the model to use different internal probabilities to calculate the probabilities of \hyperref[def:token]{\textit{token}} sequences.''~\cite{bugram}
+    ``The size of an n-gram model. Different gram sizes enable the model to use different internal probabilities to calculate the probabilities of \hyperref[def:token]{\textit{token}} sequences.''~\cite{bugram}
     %
 \end{definition}
 
-The \hyperref[def:gram_size]{\textit{gram size}} n is an essential part of building a \ngram{} and calculating the probabilities of a token sequence by utilizing n-1 predecessors. Existing studies found that 3 to 6-gram models gave the best results, although the optimal \hyperref[def:gram_size]{\textit{gram size}} for bug detection is still unknown. To explore this question more, Section \ref{sec:gram_size} focuses on analysing the effects of different \hyperref[def:gram_size]{\textit{gram sizes}} in the \scratch{} bug detection as one of the research questions of this bachelor's thesis.
+The \hyperref[def:gram_size]{\textit{gram size}} n is an essential part of building an \ngram{} and calculating the probabilities of a token sequence by utilizing n - 1 predecessors. Existing studies found that 3 to 6-gram models gave the best results, although the optimal \hyperref[def:gram_size]{\textit{gram size}} for bug detection is still unknown. 
 
 \begin{definition}[Sequence Length]\label{def:sequence_length}
     %
@@ -98,11 +97,11 @@ The \hyperref[def:sequence_length]{\textit{length}} of analysed sequences of a p
     %
 \end{definition}
 
-In contrast to the usual rule-based bug finding techniques which use a probability threshold to distinguish potential bugs from normal sequences, the \ngram{} detects token sequences of low absolute probabilities. The goal is to find the optimal parameter for the \hyperref[def:reporting_size]{\textit{reporting size}} that separates buggy sequences from false positives. A larger number of bugs that get reported from the found list will definitely lead to a bigger size of found bugs but also means a higher risk of reporting sequences that are normal occurrences.
+In contrast to the usual rule-based bug finding techniques which use a probability threshold to distinguish potential bugs from normal sequences, the \ngram{} detects token sequences of low absolute probabilities. A larger number of bugs that get reported from the found list will definitely lead to a bigger size of found bugs but also means a higher risk of reporting sequences that are normal occurrences.
 
 \begin{definition}[Minimum Token Occurrence]\label{def:minimum_token_occurrence}
     %
-    ``The minimum number of times a token must occur in the code to be included in a n-gram model. An appropriate value helps to filter out \hyperref[def:token]{token} sequences that use unusual/special methods, thus have low probabilities but are not bugs.''~\cite{bugram}
+    ``The minimum number of times a token must occur in the code to be included in an n-gram model. An appropriate value helps to filter out \hyperref[def:token]{token} sequences that use unusual/special methods, thus have low probabilities but are not bugs.''~\cite{bugram}
     %
 \end{definition}
 
@@ -114,4 +113,4 @@ Taking out tokens in a project that are not frequently used by using a \hyperref
     %
 \end{definition}
 
-After the analysis of a project a number of sequences with the least calculated probabilities are getting reported as bugs. But in order to minimize the number of false positives in the bug set, it is common practice to determine a \hyperref[def:probability_threshold]{\textit{probability threshold}} that differentiates a bug from a rare occurrence of a sequence. 
+After the analysis of a project, a number of sequences with the least calculated probabilities are getting reported as bugs. But in order to minimize the number of false positives in the bug set, it is common practice to determine a \hyperref[def:probability_threshold]{\textit{probability threshold}} that differentiates a bug from a rare occurrence of a sequence. 
